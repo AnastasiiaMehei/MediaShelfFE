@@ -10,6 +10,7 @@ import SideNav from "./SideNav";
 import { UserInitial } from "./UserInitial";
 import { motion } from "framer-motion";
 import Text from "./ui/Text";
+import "../styles/theme-switcher.css";
 
 export default function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -145,15 +146,16 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <label className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 shadow-sm transition-colors duration-200 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800">
-            <span>{isDark ? "Dark" : "Light"}</span>
+          <label className="theme-switcher" htmlFor="switcher">
             <input
               id="switcher"
               type="checkbox"
+              aria-label="change theme"
+              className="theme-switcher__checkbox"
               checked={isDark}
               onChange={() => setTheme(isDark ? "light" : "dark")}
-              className="h-5 w-5 rounded-full border border-gray-300 bg-white text-primary shadow-sm focus:ring-primary focus:ring-2"
             />
+            <span className="theme-switcher__switch"></span>
           </label>
           <UserInitial />
 
