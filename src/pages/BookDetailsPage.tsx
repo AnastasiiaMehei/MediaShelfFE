@@ -4,6 +4,7 @@ import { getBookById } from "../api/booksApi";
 import type { Book } from "../types/Book";
 import { motion } from "framer-motion";
 import { useAppSelector } from "../lib/store/hooks";
+import { ClipLoader } from "react-spinners"; 
 
 export default function BookDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -13,31 +14,20 @@ export default function BookDetailsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("ID from URL:", id);
-    console.log("Token from Redux:", token);
-
-    if (!id || !token) {
-      console.log("STOP: no id or no token");
-      return;
-    }
+    if (!id || !token) return;
 
     getBookById(id, token)
-      .then((data) => {
-        console.log("API response:", data);
-        setBook(data);
-      })
-      .catch((err) => {
-        console.error("Error loading book:", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then((data) => setBook(data))
+      .catch((err) => console.error("Error loading book:", err))
+      .finally(() => setLoading(false));
   }, [id, token]);
 
-  console.log("Current book state:", book);
-
   if (loading) {
-    return <p className="text-gray-400 pt-24 px-6">Loading...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-black">
+        <ClipLoader color="#ef4444" size={50} /> 
+      </div>
+    );
   }
 
   if (!book) {
@@ -72,7 +62,6 @@ export default function BookDetailsPage() {
 
           {book.description ? (
             <p className="text-gray-400">{book.description}</p>
-            
           ) : (
             <p className="text-gray-500 italic">
               No description available for this book.

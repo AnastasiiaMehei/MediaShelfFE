@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import FeaturesPage from "./pages/FeaturesPage";
 import BooksPage from "./pages/BooksPage";
 import BookDetailsPage from "./pages/BookDetailsPage";
+import ImagesPage from "./pages/ImagesPage";
 
 
 import "./App.css";
@@ -32,7 +33,8 @@ export default function App() {
         <Route path="/user" element={<ProtectedUserRoute />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/books" element={<BooksPage />} />
-        <Route path="/books/:id" element={<BookDetailsPage />} />
+        <Route path="/books/:id" element={<BookDetailsPage />} />        
+        <Route path="/images" element={<ImagesPage />} />
       </Routes>
     </Router>
   );

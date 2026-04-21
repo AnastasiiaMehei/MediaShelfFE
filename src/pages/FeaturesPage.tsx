@@ -1,11 +1,28 @@
 import { motion } from "framer-motion";
-import { Music, Video, BookOpen, Film } from "lucide-react";
+import { Music, Video, BookOpen, Film, Image } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/authSlice";
 import { booksAuthService } from "../services/booksAuth.service";
 
 const categories = [
+  {
+    name: "Images",
+    items: [
+      { 
+        title: "Image Gallery", 
+        description: "Browse and manage your images.", 
+        icon: <Image className="h-6 w-6" />,
+        link: "/images"
+      },
+      { 
+        title: "Upload Images", 
+        description: "Add new pictures to your gallery.", 
+        icon: <Image className="h-6 w-6" />,
+        link: "/images"
+      }
+    ]
+  },  
   {
     name: "Music",
     items: [
@@ -104,9 +121,16 @@ export default function FeaturesPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    onClick={() =>
-                      item.link ? handleBooksClick() : null
-                    }
+                    onClick={() => {
+                      if (!item.link) return;
+                    
+                      if (item.link === "/books") {
+                        handleBooksClick();
+                      } else {
+                        navigate(item.link);
+                      }
+                    }}
+                    
                     className={`bg-gray-900 p-6 rounded-lg shadow hover:shadow-lg transition-shadow 
                       ${item.link ? "cursor-pointer hover:bg-gray-800" : ""}`}
                   >

@@ -4,9 +4,10 @@ import BooksGrid from "../components/books/BooksGrid";
 import type { Book } from "../types/Book";
 import axios from "axios";
 import { useAppSelector } from "../lib/store/hooks";
+import { ClipLoader } from "react-spinners"; 
 
 export default function BooksPage() {
-    const token = useAppSelector((state) => state.auth.accessToken);
+  const token = useAppSelector((state) => state.auth.accessToken);
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -19,7 +20,7 @@ export default function BooksPage() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => setBooks(res.data.results))  
+      .then((res) => setBooks(res.data.results))
       .finally(() => setLoading(false));
   }, [token]);
 
@@ -35,7 +36,9 @@ export default function BooksPage() {
       </motion.h1>
 
       {loading ? (
-        <p className="text-gray-400">Loading books...</p>
+        <div className="flex justify-center items-center h-64">
+          <ClipLoader color="#ef4444" size={50} /> 
+        </div>
       ) : (
         <BooksGrid books={books} />
       )}
