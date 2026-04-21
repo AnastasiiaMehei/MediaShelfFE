@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import type { PixabayImage } from "../../types/PixabayImage";
+import Card from "../ui/Card";
 
 interface ImageCardProps {
   image: PixabayImage;
@@ -8,16 +8,13 @@ interface ImageCardProps {
 
 export default function ImageCard({ image, onClick }: ImageCardProps) {
   return (
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="bg-gray-900 p-4 rounded-lg shadow cursor-pointer hover:bg-gray-800 transition"
-      onClick={onClick}
-    >
+    <Card>
       <img
         src={image.webformatURL}
         alt={image.tags}
-        className="w-full h-64 object-cover rounded-md mb-4"
+        className="w-full h-full object-cover rounded-md cursor-pointer"
+        onClick={onClick}
       />
-    </motion.div>
+    </Card>
   );
 }

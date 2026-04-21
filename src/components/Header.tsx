@@ -52,8 +52,10 @@ export default function Header() {
   }, [theme]);
 
   const handleLogout = () => {
-    dispatch(logout());
     navigate("/");
+    setTimeout(() => {
+      dispatch(logout());
+    }, 100);
   };
 
   return (
@@ -120,12 +122,13 @@ export default function Header() {
               </Link>
 
               <button
-                onClick={handleLogout}
-                className="text-sm font-medium text-red-900 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
-              >
-                Logout
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-              </button>
+  onClick={handleLogout}
+  className="ml-[50px] text-sm font-medium text-red-900 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+>
+  Logout
+  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+</button>
+
             </>
           ) : (
             <>

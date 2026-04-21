@@ -107,7 +107,7 @@ export default function FeaturesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white">
       <section className="pt-20 pb-12 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -117,7 +117,7 @@ export default function FeaturesPage() {
           >
           Features
         </motion.h1>
-        <p className="text-lg text-gray-400">
+        <p className="text-lg text-gray-600 dark:text-gray-400">
           Explore categories: Music, Video, Books, and Movies.
         </p>
       </section>
@@ -152,18 +152,18 @@ export default function FeaturesPage() {
                       }
                     }}
                     
-                    className={`bg-gray-900 p-6 rounded-lg shadow hover:shadow-lg transition-shadow 
-                      ${item.link ? "cursor-pointer hover:bg-gray-800" : ""}`}
+                    className={`bg-white dark:bg-primary p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-gray-900 dark:text-white border border-gray-200 dark:border-none
+                      ${item.link ? "cursor-pointer hover:bg-gray-50 dark:hover:bg-primary/90" : ""}`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="text-red-500 p-2 bg-red-500/10 rounded-lg">
+                      <div className="text-primary dark:text-white p-2 bg-primary/10 dark:bg-white/20 rounded-lg">
                         {item.icon}
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold mb-2">
+                        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
                           {item.title}
                         </h3>
-                        <p className="text-gray-400">{item.description}</p>
+                        <p className="text-gray-600 dark:text-gray-200">{item.description}</p>
                       </div>
                     </div>
                   </motion.div>

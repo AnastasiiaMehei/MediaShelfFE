@@ -12,6 +12,8 @@ import BookDetailsPage from "./pages/BookDetailsPage";
 import ImagesPage from "./pages/ImagesPage";
 import MoviesPage from "./pages/MoviesPage";
 import VideoPage from "./pages/VideoPage";
+import ScrollToTop from "./components/ScrollToTop";
+import BackButton from "./components/BackButton";
 
 
 import "./App.css";
@@ -24,22 +26,34 @@ function ProtectedUserRoute() {
   return <Navigate to="/login" replace />;
 }
 
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+}
+
 export default function App() {
   return (
     <Router>
       <Header />
+      <BackButton />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/user" element={<ProtectedUserRoute />} />
-        <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/books" element={<BooksPage />} />
-        <Route path="/books/:id" element={<BookDetailsPage />} />        
-        <Route path="/images" element={<ImagesPage />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/videos" element={<VideoPage />} />
+        <Route path="/features" element={<ProtectedRoute><FeaturesPage /></ProtectedRoute>} />
+        <Route path="/books" element={<ProtectedRoute><BooksPage /></ProtectedRoute>} />
+        <Route path="/books/:id" element={<ProtectedRoute><BookDetailsPage /></ProtectedRoute>} />
+        <Route path="/images" element={<ProtectedRoute><ImagesPage /></ProtectedRoute>} />
+        <Route path="/movies" element={<ProtectedRoute><MoviesPage /></ProtectedRoute>} />
+        <Route path="/videos" element={<ProtectedRoute><VideoPage /></ProtectedRoute>} />
       </Routes>
+      <ScrollToTop />
     </Router>
   );
 }

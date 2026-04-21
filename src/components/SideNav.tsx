@@ -46,11 +46,11 @@ export default function SideNav({
       ? {
           title: "Account",
           items: [
-            {
-              to: "/features",
-              label: "Features",
-              icon: <Sparkles className="w-4 h-4" />,
-            },
+            // {
+            //   to: "/features",
+            //   label: "Features",
+            //   icon: <Sparkles className="w-4 h-4" />,
+            // },
             {
               to: "/logout",
               label: "Logout",

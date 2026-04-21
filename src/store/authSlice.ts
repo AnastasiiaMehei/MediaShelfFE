@@ -13,12 +13,34 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
-const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-  refreshToken: null,
-  isAuthenticated: false,
+// Helper function to load auth state from localStorage
+const loadAuthState = (): AuthState => {
+  try {
+    const user = localStorage.getItem('user');
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (user && accessToken) {
+      return {
+        user: JSON.parse(user),
+        accessToken,
+        refreshToken: refreshToken || null,
+        isAuthenticated: true,
+      };
+    }
+  } catch (error) {
+    console.error('Error loading auth state from localStorage:', error);
+  }
+
+  return {
+    user: null,
+    accessToken: null,
+    refreshToken: null,
+    isAuthenticated: false,
+  };
 };
+
+const initialState: AuthState = loadAuthState();
 
 const authSlice = createSlice({
   name: "auth",
@@ -36,6 +58,17 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = true;
+
+      // Save to localStorage
+      try {
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        if (action.payload.refreshToken) {
+          localStorage.setItem('refreshToken', action.payload.refreshToken);
+        }
+      } catch (error) {
+        console.error('Error saving auth state to localStorage:', error);
+      }
     },
 
     logout(state) {
@@ -43,6 +76,15 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
       state.isAuthenticated = false;
+
+      // Clear localStorage
+      try {
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+      } catch (error) {
+        console.error('Error clearing auth state from localStorage:', error);
+      }
     },
   },
 });

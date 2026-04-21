@@ -33,9 +33,10 @@ export default function ImageModal({ image, onClose }: ImageModalProps) {
 
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 hover:bg-red-700 text-white px-3 py-1 rounded"
+            className="absolute top-5 right-5 w-8 h-8 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg hover:shadow-xl"
+            aria-label="Close modal"
           >
-            ✕ 
+            ✕
           </button>
         </motion.div>
       </motion.div>

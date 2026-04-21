@@ -22,7 +22,7 @@ export default function MoviesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 px-6">
+    <div className="min-h-screen bg-black text-white pt-24 px-6 ml-20">
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

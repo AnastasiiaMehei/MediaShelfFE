@@ -49,7 +49,7 @@ export default function HeroSlider() {
   }, []);
 
   return (
-    <div className="swiper-hero h-screen min-h-[660px] overflow-hidden">
+    <div className="swiper-hero relative h-screen min-h-[660px] overflow-hidden">
       <div className="swiper-wrapper">
         {slides.map((slide, index) => (
           <div key={index} className="swiper-slide w-full h-full">
@@ -62,6 +62,17 @@ export default function HeroSlider() {
             />
           </div>
         ))}
+      </div>
+      
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 backdrop-blur-sm bg-black/20">
+        <div className="text-center text-white">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+            Welcome to MediaShelf
+          </h1>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-light max-w-2xl">
+            Your hub for movies, music, books and others. Discover, organize and enjoy your favorite media in one place
+          </h2>
+        </div>
       </div>
     </div>
   );
