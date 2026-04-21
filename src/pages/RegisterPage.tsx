@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/authSlice";
+import authService from "../services/auth.service";
 
 const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string; server?: string }>({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: { username?: string; email?: string; password?: string } = {};
 
@@ -22,24 +26,28 @@ const RegisterPage: React.FC = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // тут можна викликати API для реєстрації
-      console.log("Registered:", { username, email, password });
+      try {
+        const res = await authService.register({ name: username, email, password });
+        dispatch(setUser(res.data.data.user));
+        console.log("Response:", res.data);
 
-      // після успішної реєстрації переводимо користувача
-      navigate("/user");
+        navigate("/features"); 
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setErrors({ server: err.message });
+        }
+    
+        if (typeof err === "object" && err !== null && "response" in err) {
+          const axiosErr = err as { response?: { data?: { message?: string } } };
+          setErrors({ server: axiosErr.response?.data?.message || "Registration failed" });
+        }
+      }
+    
     }
-  };
+  }
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "black",
-      }}
-    >
+    <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "black" }}>
       <Container maxWidth="xs">
         <Paper elevation={0} sx={{ p: 4, bgcolor: "#141414", color: "white" }}>
           <Typography variant="h4" align="center" gutterBottom sx={{ color: "red", fontWeight: "bold" }}>
@@ -55,10 +63,7 @@ const RegisterPage: React.FC = () => {
               onChange={(e) => setUsername(e.target.value)}
               error={Boolean(errors.username)}
               helperText={errors.username}
-              sx={{
-                "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" },
-                "& .MuiInputLabel-root": { color: "#aaa" },
-              }}
+              sx={{ "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" }, "& .MuiInputLabel-root": { color: "#aaa" } }}
             />
 
             <TextField
@@ -70,10 +75,7 @@ const RegisterPage: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               error={Boolean(errors.email)}
               helperText={errors.email}
-              sx={{
-                "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" },
-                "& .MuiInputLabel-root": { color: "#aaa" },
-              }}
+              sx={{ "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" }, "& .MuiInputLabel-root": { color: "#aaa" } }}
             />
 
             <TextField
@@ -85,22 +87,20 @@ const RegisterPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               error={Boolean(errors.password)}
               helperText={errors.password}
-              sx={{
-                "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" },
-                "& .MuiInputLabel-root": { color: "#aaa" },
-              }}
+              sx={{ "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" }, "& .MuiInputLabel-root": { color: "#aaa" } }}
             />
+
+            {errors.server && (
+              <Typography color="error" sx={{ textAlign: "center" }}>
+                {errors.server}
+              </Typography>
+            )}
 
             <Button
               type="submit"
               variant="contained"
               fullWidth
-              sx={{
-                mt: 2,
-                bgcolor: "red",
-                "&:hover": { bgcolor: "#cc0000" },
-                fontWeight: "bold",
-              }}
+              sx={{ mt: 2, bgcolor: "red", "&:hover": { bgcolor: "#cc0000" }, fontWeight: "bold" }}
             >
               Sign Up
             </Button>

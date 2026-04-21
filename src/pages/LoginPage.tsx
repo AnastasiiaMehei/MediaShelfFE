@@ -1,50 +1,51 @@
 import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/authSlice";
+import authService from "../services/auth.service";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string; server?: string }>({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: { email?: string; password?: string } = {};
 
-    if (!email) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Invalid email format";
-    }
-
-    if (!password) {
-      newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
+    if (!email) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Invalid email format";
+    if (!password) newErrors.password = "Password is required";
+    else if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // тут можна викликати API для логіну
-      console.log("Logged in:", { email, password });
+      try {
+        const res = await authService.login({ email, password });
+        dispatch(setUser(res.data.data.user));
+        console.log("Response:", res.data);
 
-      // після успішного логіну переводимо користувача
-      navigate("/user");
+        navigate("/features");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setErrors({ server: err.message });
+        }
+    
+        if (typeof err === "object" && err !== null && "response" in err) {
+          const axiosErr = err as { response?: { data?: { message?: string } } };
+          setErrors({ server: axiosErr.response?.data?.message || "Login failed" });
+        }
+      }
     }
+    
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "black",
-      }}
-    >
+    <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "black" }}>
       <Container maxWidth="xs">
         <Paper elevation={0} sx={{ p: 4, bgcolor: "#141414", color: "white" }}>
           <Typography variant="h4" align="center" gutterBottom sx={{ color: "red", fontWeight: "bold" }}>
@@ -61,10 +62,7 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               error={Boolean(errors.email)}
               helperText={errors.email}
-              sx={{
-                "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" },
-                "& .MuiInputLabel-root": { color: "#aaa" },
-              }}
+              sx={{ "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" }, "& .MuiInputLabel-root": { color: "#aaa" } }}
             />
 
             <TextField
@@ -76,23 +74,12 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               error={Boolean(errors.password)}
               helperText={errors.password}
-              sx={{
-                "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" },
-                "& .MuiInputLabel-root": { color: "#aaa" },
-              }}
+              sx={{ "& .MuiFilledInput-root": { bgcolor: "#1f1f1f", color: "white" }, "& .MuiInputLabel-root": { color: "#aaa" } }}
             />
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                mt: 2,
-                bgcolor: "red",
-                "&:hover": { bgcolor: "#cc0000" },
-                fontWeight: "bold",
-              }}
-            >
+            {errors.server && <Typography color="error">{errors.server}</Typography>}
+
+            <Button type="submit" variant="contained" fullWidth sx={{ mt: 2, bgcolor: "red", "&:hover": { bgcolor: "#cc0000" }, fontWeight: "bold" }}>
               Sign In
             </Button>
           </Box>
