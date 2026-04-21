@@ -2,50 +2,92 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store";
 import { logout } from "../store/authSlice";
+import { useState, useEffect } from "react";
+import { CiMenuFries } from "react-icons/ci";
+import { Button } from "./ui/Button";
+import SideNav from "./SideNav";
+import { ModeToggle } from "./ModeToggle";
+import { motion } from "framer-motion";
+import Text from "./ui/Text";
 
 export default function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [scrollY, setScrollY] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
-    <header className="bg-black text-white px-6 py-4 flex items-center justify-between">
-      <Link
-        to="/"
-        className="text-2xl font-bold tracking-wide text-red-600 hover:text-red-500 transition"
+    <>
+      <SideNav handleClose={toggleOpen} isOpen={isOpen} />
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className={`flex items-center justify-between px-4 md:px-8 w-full h-[80px] top-0 bg-white/80 md:dark:border-none border-b dark:bg-black/80 dark:border-b-gray-800 z-20 fixed backdrop-blur-md ${scrollY > 150 ? "shadow-sm" : ""}`}
       >
-        MediaShelf
-      </Link>
+        <Link to="/">
+          <Text label="MediaShelf" className="text-xl font-bold text-primary" />
+        </Link>
 
-      <nav className="flex gap-6 text-lg font-medium">
-        {user ? (
-          <>
-            <Link to="/features" className="hover:text-red-600 transition">
-              Features
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="hover:text-red-600 transition"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="hover:text-red-600 transition">
-              Login
-            </Link>
-            <Link to="/register" className="hover:text-red-600 transition">
-              Register
-            </Link>
-          </>
-        )}
-      </nav>
-    </header>
+        <div className="hidden md:flex items-center gap-6">
+          {user ? (
+            <>
+              <Link
+                to="/features"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+              >
+                Features
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+              >
+                Login
+              </Link>
+              <Link to="/register">
+                <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <ModeToggle />
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <CiMenuFries
+              onClick={toggleOpen}
+              className="h-6 w-6 md:hidden text-gray-600 dark:text-gray-400 cursor-pointer hover:text-primary dark:hover:text-primary transition-colors"
+            />
+          </motion.div>
+        </div>
+      </motion.nav>
+    </>
   );
 }
