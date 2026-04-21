@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store";
 import { logout } from "../store/authSlice";
 import { useState, useEffect } from "react";
+import { useTheme } from "../hooks/useTheme";
 import { CiMenuFries } from "react-icons/ci";
 import { Button } from "./ui/Button";
 import SideNav from "./SideNav";
@@ -17,6 +18,8 @@ export default function Header() {
 
   const [scrollY, setScrollY] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [isDark, setIsDark] = useState(false);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -25,6 +28,27 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const resolveTheme = () => {
+      if (theme === "system") {
+        return mediaQuery.matches;
+      }
+      return theme === "dark";
+    };
+
+    setIsDark(resolveTheme());
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (theme === "system") {
+        setIsDark(event.matches);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [theme]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -121,6 +145,16 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          <label className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 shadow-sm transition-colors duration-200 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800">
+            <span>{isDark ? "Dark" : "Light"}</span>
+            <input
+              id="switcher"
+              type="checkbox"
+              checked={isDark}
+              onChange={() => setTheme(isDark ? "light" : "dark")}
+              className="h-5 w-5 rounded-full border border-gray-300 bg-white text-primary shadow-sm focus:ring-primary focus:ring-2"
+            />
+          </label>
           <UserInitial />
 
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
