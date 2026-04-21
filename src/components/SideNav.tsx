@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-import { ModeToggle } from "./ModeToggle";
+import { UserInitial } from "./UserInitial";
 import Text from "./ui/Text";
 import {
   Sparkles,
@@ -102,7 +102,7 @@ export default function SideNav({
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <ModeToggle />
+                  <UserInitial />
                 </motion.div>
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}

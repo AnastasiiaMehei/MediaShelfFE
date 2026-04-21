@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { Button } from "./ui/Button";
 import SideNav from "./SideNav";
-import { ModeToggle } from "./ModeToggle";
+import { UserInitial } from "./UserInitial";
 import { motion } from "framer-motion";
 import Text from "./ui/Text";
 
@@ -58,10 +58,45 @@ export default function Header() {
                 Features
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
+              <Link
+                to="/images"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+              >
+                Images
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                to="/music"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+              >
+                Music
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                to="/videos"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+              >
+                Videos
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                to="/books"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+              >
+                Books
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                to="/movies"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+              >
+                Movies
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
 
               <button
                 onClick={handleLogout}
-                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
+                className="text-sm font-medium text-red-900 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
               >
                 Logout
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
@@ -86,7 +121,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <ModeToggle />
+          <UserInitial />
 
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <CiMenuFries

@@ -30,11 +30,15 @@ const RegisterPage: React.FC = () => {
         const res = await authService.register({ name: username, email, password });
         dispatch(
           setCredentials({
-            user: res.data.user,
-            accessToken: res.data.accessToken,
-            refreshToken: res.data.refreshToken,
+            user: {
+              email: res.data.data.user.email,
+              name: res.data.data.user.name
+            },
+            accessToken: res.data.data.accessToken,
+            refreshToken: res.data.data.refreshToken,
           })
         );
+        
                 console.log("Response:", res.data);
 
         navigate("/features"); 

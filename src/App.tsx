@@ -10,6 +10,8 @@ import FeaturesPage from "./pages/FeaturesPage";
 import BooksPage from "./pages/BooksPage";
 import BookDetailsPage from "./pages/BookDetailsPage";
 import ImagesPage from "./pages/ImagesPage";
+import MoviesPage from "./pages/MoviesPage";
+import VideoPage from "./pages/VideoPage";
 
 
 import "./App.css";
@@ -35,6 +37,8 @@ export default function App() {
         <Route path="/books" element={<BooksPage />} />
         <Route path="/books/:id" element={<BookDetailsPage />} />        
         <Route path="/images" element={<ImagesPage />} />
+        <Route path="/movies" element={<MoviesPage />} />
+        <Route path="/videos" element={<VideoPage />} />
       </Routes>
     </Router>
   );

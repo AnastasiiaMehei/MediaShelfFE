@@ -36,20 +36,23 @@ export default function ImagesPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-blue-400 mb-6"
+        className="text-4xl font-bold text-red-500 mb-6"
       >
         Images Gallery
       </motion.h1>
 
-      <input
-        type="text"
-        placeholder="Search images..."
-        className="w-full max-w-md p-3 rounded bg-gray-800 text-white mb-6"
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setPage(1);
-        }}
-      />
+      <div className="flex justify-center mb-6">
+  <input
+    type="text"
+    placeholder="Search images..."
+    className="w-full max-w-md p-3 rounded bg-gray-800 text-white"
+    onChange={(e) => {
+      setQuery(e.target.value);
+      setPage(1);
+    }}
+  />
+</div>
+
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {images.map((img) => (

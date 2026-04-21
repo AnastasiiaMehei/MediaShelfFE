@@ -33,8 +33,18 @@ const categories = [
   {
     name: "Video",
     items: [
-      { title: "Stream Videos", description: "Watch the latest clips and shows instantly.", icon: <Video className="h-6 w-6" /> },
-      { title: "Create Playlists", description: "Build collections of your favorite videos.", icon: <Video className="h-6 w-6" /> }
+      { 
+        title: "Stream Videos", 
+        description: "Watch the latest clips and shows instantly.", 
+        icon: <Video className="h-6 w-6" />, 
+        link: "/video"  
+      },
+      { 
+        title: "Create Playlists", 
+        description: "Build collections of your favorite videos.", 
+        icon: <Video className="h-6 w-6" />, 
+        link: "/video"   
+      }
     ]
   },
   {
@@ -57,10 +67,21 @@ const categories = [
   {
     name: "Movies",
     items: [
-      { title: "Latest Releases", description: "Stay updated with new movie premieres.", icon: <Film className="h-6 w-6" /> },
-      { title: "Favorites", description: "Bookmark and rewatch your favorite films.", icon: <Film className="h-6 w-6" /> }
+      { 
+        title: "Latest Releases", 
+        description: "Stay updated with new movie premieres.", 
+        icon: <Film className="h-6 w-6" />,
+        link: "/movies"  
+      },
+      { 
+        title: "Favorites", 
+        description: "Bookmark and rewatch your favorite films.", 
+        icon: <Film className="h-6 w-6" />,
+        link: "/movies"  
+      }
     ]
   }
+  
 ];
 
 export default function FeaturesPage() {
@@ -92,8 +113,8 @@ export default function FeaturesPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl md:text-5xl font-bold text-red-600 mb-4"
-        >
+          className="text-4xl font-bold text-red-500 mb-6"
+          >
           Features
         </motion.h1>
         <p className="text-lg text-gray-400">
