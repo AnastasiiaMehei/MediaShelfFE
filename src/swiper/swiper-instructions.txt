@@ -1,0 +1,255 @@
+Here's the complete setup to import your Swiper hero slider into a TypeScript project:
+1. Installation
+First, install Swiper in your TypeScript project:
+npm install swiper
+2. TypeScript Code (hero-slider.ts)
+import Swiper from 'swiper';
+import { Autoplay, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/navigation';
+
+const swiper = new Swiper('.swiper-hero', {
+  modules: [
+    Navigation,
+    Autoplay,
+  ],
+  loop: true,
+  autoplay: {
+    delay: 5000,
+    waitForTransition: true,
+  },
+  speed: 1000,
+  direction: 'horizontal',
+  effect: 'fade',
+  fadeEffect: {
+    crossFade: true,
+  },
+});
+
+3. HTML Structure
+<section class="hero">
+  <div class="container hero__wrapper">
+    <h1 class="hero__title">
+      Hello. <br>
+      I'm Fullstack developer
+      Lloyd Jefferson.
+    </h1>
+
+    <ul class="hero__links">
+      <li class="hero__link">
+        <a target="_blank"
+           rel="noopener noreferrer nofollow"
+           href="https://www.instagram.com/goitclub/">IG</a>
+      </li>
+      <li class="hero__link">
+        <a target="_blank"
+           rel="noopener noreferrer nofollow"
+           href="https://www.facebook.com/goITclub/">FB</a>
+      </li>
+      <li class="hero__link">
+        <a target="_blank"
+           rel="noopener noreferrer nofollow"
+           href="https://www.youtube.com/c/GoIT">YT</a>
+      </li>
+      <li class="hero__link">
+        <a target="_blank"
+           rel="noopener noreferrer nofollow"
+           href="https://github.com/">GH</a>
+      </li>
+      <li class="hero__mail">
+        <a target="_blank"
+           rel="noopener noreferrer nofollow"
+           href="mailto:lloydjefferson@gmail.com">lloydjefferson@gmail.com</a>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Slider main container -->
+  <div class="swiper-hero">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+      <!-- Slides -->
+      <div class="swiper-slide swiper-hero-slide-1 swiper-hero-slide">
+        <img src="./img/hero/bg-blue-x1.png"
+             srcset="./img/hero/bg-blue-x1.png 1x, ./img/hero/bg-blue-x2.png 2x"
+             alt="blue-screen"
+             loading="lazy">
+      </div>
+      <div class="swiper-slide swiper-hero-slide-2 swiper-hero-slide">
+        <img src="./img/hero/bg-brown-x1.png"
+             srcset="./img/hero/bg-brown-x1.png 1x, ./img/hero/bg-brown-x2.png 2x"
+             alt="brown-screen"
+             loading="lazy">
+      </div>
+      <div class="swiper-slide swiper-hero-slide-3 swiper-hero-slide">
+        <img src="./img/hero/bg-green-x1.png"
+             srcset="./img/hero/bg-green-x1.png 1x, ./img/hero/bg-green-x2.png 2x"
+             alt="green-screen"
+             loading="lazy">
+      </div>
+      <div class="swiper-slide swiper-hero-slide-4 swiper-hero-slide">
+        <img src="./img/hero/bg-red-x1.png"
+             srcset="./img/hero/bg-red-x1.png 1x, ./img/hero/bg-red-x2.png 2x"
+             alt="red-screen"
+             loading="lazy">
+      </div>
+      <div class="swiper-slide swiper-hero-slide-5 swiper-hero-slide">
+        <img src="./img/hero/bg-orange-x1.png"
+             srcset="./img/hero/bg-orange-x1.png 1x, ./img/hero/bg-orange-x2.png 2x"
+             alt="orange-screen"
+             loading="lazy">
+      </div>
+      <div class="swiper-slide swiper-hero-slide-6 swiper-hero-slide">
+        <img src="./img/hero/bg-salat-x1.png"
+             srcset="./img/hero/bg-salat-x1.png 1x, ./img/hero/bg-salat-x2.png 2x"
+             alt="light-green-screen"
+             loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+4. CSS Styles (hero.css)
+.swiper-hero {
+  height: 100vh;
+  min-height: 660px;
+}
+
+.hero {
+  position: relative;
+}
+
+.swiper-hero-slide img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__links {
+  color: white;
+  display: flex;
+  justify-content: right;
+  align-self: end;
+  column-gap: 5px;
+  font-size: 12px;
+  padding-bottom: 32px;
+}
+
+.hero__link {
+  border: 1px solid rgba(250, 250, 250, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all var(--animation-hover);
+}
+
+.hero__link:hover,
+.hero__link:focus {
+  border: 1px solid var(--red-color);
+  color: var(--red-color);
+}
+
+.hero__mail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 24px;
+  border: 1px solid rgba(250, 250, 250, 0.2);
+  padding: 5px;
+  transition: all var(--animation-hover);
+}
+
+.hero__mail:hover,
+.hero__mail:focus {
+  border: 1px solid var(--red-color);
+  color: var(--red-color);
+}
+
+.hero__wrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero__title {
+  text-transform: uppercase;
+  line-height: 1;
+  color: white;
+}
+
+.swiper-hero {
+  overflow: hidden;
+}
+
+.swiper-hero-slide {
+  width: 100%;
+}
+
+/* Media queries */
+@media screen and (max-width: 374.98px) {
+  .hero__links {
+    align-self: center;
+  }
+  .hero__link {
+    width: 30px;
+    height: 30px;
+  }
+  .hero__title {
+    max-width: 350px;
+    font-size: 50px;
+    margin-top: 35vh;
+  }
+}
+
+@media screen and (min-width: 375px) {
+  .hero__title {
+    margin-top: 35vh;
+    max-width: 500px;
+    font-size: 50px;
+  }
+  .hero__link {
+    width: 50px;
+    height: 50px;
+  }
+  .hero__links {
+    margin-top: 15px;
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .hero__title {
+    max-width: 630px;
+    font-size: 50px;
+  }
+  .hero__links {
+    align-self: end;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .hero__title {
+    max-width: 1084px;
+    font-size: 68px;
+    margin-top: 350px;
+  }
+}
+
+5. Important Notes
+* Images: You'll need to copy the hero background images from hero to your project's assets folder and update the image paths in the HTML accordingly.
+* CSS Variables: The CSS uses custom properties like --red-color and --animation-hover. Make sure these are defined in your project's CSS or replace them with actual values.
+* Initialization: Import and call the TypeScript file in your main application entry point.
+* Swiper CSS: The imports include the necessary Swiper CSS files for styling the slider.
+The slider features a fade effect with 5-second autoplay intervals, looping through 6 different colored background slides. The hero content (title and social links) is positioned absolutely over the slider.
