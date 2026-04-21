@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/authSlice";
+import { setCredentials } from "../store/authSlice";
 import authService from "../services/auth.service";
 
 const LoginPage: React.FC = () => {
@@ -26,8 +26,14 @@ const LoginPage: React.FC = () => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const res = await authService.login({ email, password });
-        dispatch(setUser(res.data.data.user));
-        console.log("Response:", res.data);
+        dispatch(
+          setCredentials({
+            user: res.data.user,
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
+          })
+        );
+                console.log("Response:", res.data);
 
         navigate("/features");
       } catch (err: unknown) {

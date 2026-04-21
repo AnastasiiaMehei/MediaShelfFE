@@ -1,6 +1,9 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Music, Video, BookOpen, Film } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../store/authSlice";
+import { booksAuthService } from "../services/booksAuth.service";
 
 const categories = [
   {
@@ -20,8 +23,18 @@ const categories = [
   {
     name: "Books",
     items: [
-      { title: "Digital Library", description: "Access thousands of e‑books anytime.", icon: <BookOpen className="h-6 w-6" /> },
-      { title: "Reading Lists", description: "Save and organize books you want to read.", icon: <BookOpen className="h-6 w-6" /> }
+      { 
+        title: "Digital Library", 
+        description: "Access thousands of e‑books anytime.", 
+        icon: <BookOpen className="h-6 w-6" />,
+        link: "/books"
+      },
+      { 
+        title: "Reading Lists", 
+        description: "Save and organize books you want to read.", 
+        icon: <BookOpen className="h-6 w-6" />,
+        link: "/books"
+      }
     ]
   },
   {
@@ -34,9 +47,29 @@ const categories = [
 ];
 
 export default function FeaturesPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleBooksClick = async () => {
+    try {
+      const data = await booksAuthService.autoLogin();
+
+      dispatch(
+        setCredentials({
+          user: { email: data.email, name: data.name },
+          accessToken: data.token,
+          refreshToken: data.refreshToken,
+        })
+      );
+
+      navigate("/books");
+    } catch (err) {
+      console.error("Books backend login failed:", err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Header */}
       <section className="pt-20 pb-12 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -51,7 +84,6 @@ export default function FeaturesPage() {
         </p>
       </section>
 
-      {/* Categories Grid */}
       <section className="py-12">
         <div className="container mx-auto px-4 max-w-6xl">
           {categories.map((category, idx) => (
@@ -72,7 +104,11 @@ export default function FeaturesPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="bg-gray-900 p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
+                    onClick={() =>
+                      item.link ? handleBooksClick() : null
+                    }
+                    className={`bg-gray-900 p-6 rounded-lg shadow hover:shadow-lg transition-shadow 
+                      ${item.link ? "cursor-pointer hover:bg-gray-800" : ""}`}
                   >
                     <div className="flex items-start gap-4">
                       <div className="text-red-500 p-2 bg-red-500/10 rounded-lg">

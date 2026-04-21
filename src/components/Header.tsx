@@ -34,11 +34,14 @@ export default function Header() {
   return (
     <>
       <SideNav handleClose={toggleOpen} isOpen={isOpen} />
+
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`flex items-center justify-between px-4 md:px-8 w-full h-[80px] top-0 bg-white/80 md:dark:border-none border-b dark:bg-black/80 dark:border-b-gray-800 z-20 fixed backdrop-blur-md ${scrollY > 150 ? "shadow-sm" : ""}`}
+        className={`flex items-center justify-between px-4 md:px-8 w-full h-[80px] top-0 bg-white/80 md:dark:border-none border-b dark:bg-black/80 dark:border-b-gray-800 z-20 fixed backdrop-blur-md ${
+          scrollY > 150 ? "shadow-sm" : ""
+        }`}
       >
         <Link to="/">
           <Text label="MediaShelf" className="text-xl font-bold text-primary" />
@@ -47,6 +50,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-6">
           {user ? (
             <>
+              {/* FEATURES — ЛІВОРУЧ */}
               <Link
                 to="/features"
                 className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
@@ -54,11 +58,13 @@ export default function Header() {
                 Features
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
+
               <button
                 onClick={handleLogout}
-                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+                className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
               >
                 Logout
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </button>
             </>
           ) : (
@@ -69,6 +75,7 @@ export default function Header() {
               >
                 Login
               </Link>
+
               <Link to="/register">
                 <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                   Register
@@ -80,6 +87,7 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <ModeToggle />
+
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <CiMenuFries
               onClick={toggleOpen}

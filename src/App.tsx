@@ -7,6 +7,11 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Header from "./components/Header";
 import FeaturesPage from "./pages/FeaturesPage";
+import BooksPage from "./pages/BooksPage";
+import BookDetailsPage from "./pages/BookDetailsPage";
+
+
+import "./App.css";
 function ProtectedUserRoute() {
   const user = useSelector((state: RootState) => state.auth.user);
 
@@ -25,7 +30,9 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/user" element={<ProtectedUserRoute />} />
-        <Route path="/features" element={<FeaturesPage />} /> {/* 👈 новий маршрут */}
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/books" element={<BooksPage />} />
+        <Route path="/books/:id" element={<BookDetailsPage />} />
       </Routes>
     </Router>
   );
