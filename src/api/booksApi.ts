@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Book } from "../types/Book";
 
-const BASE_URL = "http://localhost:3000/api/books";
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api/books`;
 
 // ===============================
 // GET /books/recommend
@@ -13,7 +13,6 @@ export const getRecommendedBooks = async (token: string): Promise<Book[]> => {
     },
   });
 
-  // ReadJourney returns: { results: Book[] }
   return res.data.results;
 };
 
@@ -30,7 +29,5 @@ export const getBookById = async (
     },
   });
 
-  // ReadJourney returns: { data: Book }
-  return res.data;
-
+  return res.data.data;
 };

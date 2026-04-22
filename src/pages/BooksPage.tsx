@@ -13,9 +13,9 @@ export default function BooksPage() {
 
   useEffect(() => {
     if (!token) return;
-
+  
     axios
-      .get("http://localhost:3000/api/books/recommend", {
+      .get(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/books/recommend`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -23,6 +23,7 @@ export default function BooksPage() {
       .then((res) => setBooks(res.data.results))
       .finally(() => setLoading(false));
   }, [token]);
+  
 
   return (
     <div className="min-h-screen bg-black text-white pt-24 px-6 ml-20">
