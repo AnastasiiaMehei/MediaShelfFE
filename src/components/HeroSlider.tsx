@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import Swiper from 'swiper';
 import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 
 // Import hero images
@@ -27,24 +26,17 @@ const slides = [
   { x1: bgOrangeX1, x2: bgOrangeX2, alt: 'orange-screen' },
   { x1: bgSalatX1, x2: bgSalatX2, alt: 'light-green-screen' },
 ];
-
 export default function HeroSlider() {
   useEffect(() => {
-    Swiper.use([Navigation, Autoplay]);
-    
     new Swiper('.swiper-hero', {
       modules: [Navigation, Autoplay],
       loop: true,
       autoplay: {
         delay: 5000,
-        waitForTransition: true,
       },
       speed: 1000,
-      direction: 'horizontal',
       effect: 'fade',
-      fadeEffect: {
-        crossFade: true,
-      },
+      fadeEffect: { crossFade: true },
     });
   }, []);
 

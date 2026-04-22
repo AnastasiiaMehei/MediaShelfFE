@@ -15,6 +15,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store";
 import { logout } from "../store/authSlice";
+import type { MenuSection } from "../types/Navigation";
 
 export default function SideNav({
   isOpen,
@@ -31,7 +32,7 @@ export default function SideNav({
     handleClose();
   };
 
-  const menuItems = [
+  const menuItems: MenuSection[] = [
     {
       title: "Main",
       items: [
@@ -46,11 +47,6 @@ export default function SideNav({
       ? {
           title: "Account",
           items: [
-            // {
-            //   to: "/features",
-            //   label: "Features",
-            //   icon: <Sparkles className="w-4 h-4" />,
-            // },
             {
               to: "/logout",
               label: "Logout",

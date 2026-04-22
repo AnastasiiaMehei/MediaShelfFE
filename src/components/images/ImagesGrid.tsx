@@ -1,10 +1,9 @@
-import React from "react";
 import ImageCard from "./ImageCard";
 import type { PixabayImage } from "../../types/PixabayImage";
 
 interface ImagesGridProps {
   images: PixabayImage[];
-  onImageClick: (image: PixabayImage) => void; // додаємо пропс
+  onImageClick: (image: PixabayImage) => void; 
 }
 
 export default function ImagesGrid({ images, onImageClick }: ImagesGridProps) {
