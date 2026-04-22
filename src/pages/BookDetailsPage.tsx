@@ -44,7 +44,7 @@ export default function BookDetailsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-red-500 mb-6"
+        className="text-4xl font-bold text-red-500 mb-6 ml-20"
       >
         {book.title}
       </motion.h1>
@@ -57,7 +57,7 @@ export default function BookDetailsPage() {
         />
 
         <div>
-          <p className="text-xl mb-4">{book.author}</p>
+          <p className="text-xl mb-4 ">{book.author}</p>
           <p className="text-gray-300">Pages: {book.totalPages}</p>
 
           {book.description ? (

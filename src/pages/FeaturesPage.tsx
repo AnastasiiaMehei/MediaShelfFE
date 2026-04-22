@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Music, Video, BookOpen, Film, Image } from "lucide-react";
+import { Music, Video, BookOpen, Film, Image, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/authSlice";
@@ -16,9 +16,8 @@ const categories = [
         link: "/images"
       },
       { 
-        title: "Upload Images", 
-        description: "Add new pictures to your gallery.", 
-        icon: <Image className="h-6 w-6" />,
+        title: "Go to Image Gallery", 
+        description: null, 
         link: "/images"
       }
     ]
@@ -33,9 +32,8 @@ const categories = [
         link: "/audio"  
       },
       { 
-        title: "Personal Library", 
-        description: "Organize your favorite albums and artists.", 
-        icon: <Music className="h-6 w-6" />,
+        title: "Go to Audio Gallery", 
+        description: null, 
         link: "/audio"  
       }
     ]
@@ -50,9 +48,8 @@ const categories = [
         link: "/video"  
       },
       { 
-        title: "Create Playlists", 
-        description: "Build collections of your favorite videos.", 
-        icon: <Video className="h-6 w-6" />, 
+        title: "Go to Video Gallery", 
+        description: null, 
         link: "/video"   
       }
     ]
@@ -67,9 +64,8 @@ const categories = [
         link: "/books"
       },
       { 
-        title: "Reading Lists", 
-        description: "Save and organize books you want to read.", 
-        icon: <BookOpen className="h-6 w-6" />,
+        title: "Go to Books Gallery", 
+        description: null, 
         link: "/books"
       }
     ]
@@ -84,14 +80,12 @@ const categories = [
         link: "/movies"  
       },
       { 
-        title: "Favorites", 
-        description: "Bookmark and rewatch your favorite films.", 
-        icon: <Film className="h-6 w-6" />,
+        title: "Go to Movies Gallery", 
+        description: null, 
         link: "/movies"  
       }
     ]
   }
-  
 ];
 
 export default function FeaturesPage() {
@@ -101,7 +95,6 @@ export default function FeaturesPage() {
   const handleBooksClick = async () => {
     try {
       const data = await booksAuthService.autoLogin();
-
       dispatch(
         setCredentials({
           user: { email: data.email, name: data.name },
@@ -109,7 +102,6 @@ export default function FeaturesPage() {
           refreshToken: data.refreshToken,
         })
       );
-
       navigate("/books");
     } catch (err) {
       console.error("Books backend login failed:", err);
@@ -124,7 +116,7 @@ export default function FeaturesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-4xl font-bold text-red-500 mb-6"
-          >
+        >
           Features
         </motion.h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">
@@ -152,30 +144,39 @@ export default function FeaturesPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    onClick={() => {
-                      if (!item.link) return;
-                    
-                      if (item.link === "/books") {
-                        handleBooksClick();
-                      } else {
-                        navigate(item.link);
-                      }
-                    }}
-                    
-                    className={`bg-white dark:bg-primary p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-gray-900 dark:text-white border border-gray-200 dark:border-none
-                      ${item.link ? "cursor-pointer hover:bg-gray-50 dark:hover:bg-primary/90" : ""}`}
+                    className={`p-6 rounded-lg shadow transition-shadow border
+                      ${item.description 
+                        ? "bg-white dark:bg-primary text-gray-900 dark:text-white border-gray-200 dark:border-none hover:shadow-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-primary/90" 
+                        : "bg-transparent border-red-500 text-red-500 flex flex-col items-center justify-center"}`
+                    }
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="text-primary dark:text-white p-2 bg-primary/10 dark:bg-white/20 rounded-lg">
-                        {item.icon}
+                    {item.description ? (
+                      <div className="flex items-start gap-4">
+                        <div className="text-primary dark:text-white p-2 bg-primary/10 dark:bg-white/20 rounded-lg">
+                          {item.icon}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                            {item.title}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-200">
+                            {item.description}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                          {item.title}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-200">{item.description}</p>
-                      </div>
-                    </div>
+                    ) : (
+                      <>
+                        <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
+                        <button
+                          onClick={() =>
+                            item.link === "/books" ? handleBooksClick() : navigate(item.link)
+                          }
+                          className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition flex items-center gap-2"
+                        >
+                          Go <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </>
+                    )}
                   </motion.div>
                 ))}
               </div>
