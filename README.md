@@ -110,3 +110,17 @@ Responsive UI with animations
 Integration with external APIs (books, movies, pixabay images, video)
 
 
+## 🔗 Backend / API 
+
+The backend for MediaShelf is deployed on **Render**:
+
+- Base URL: [[https://mediashelfbe.onrender.com], https://github.com/AnastasiiaMehei/MediaShelfBE]
+- API Documentation (Swagger): [https://mediashelfbe.onrender.com/api-docs](https://mediashelfbe.onrender.com/api-docs)
+
+### Main Endpoints
+- `POST /api/auth/login` — user login
+- `POST /api/auth/register` — user registration
+- `GET /api/books` — fetch books
+- `GET /api/movies` — fetch movies
+- `GET /api/videos` — fetch videos
+- `GET /api/images` — fetch images (Pixabay integration)
