@@ -1,22 +1,7 @@
 import { api } from '../api/axiosInstance';
+import type { AudioFile } from '../types/Audio';
 
-export interface AudioFile {
-  _id: string;   
-  title: string;
-  size: number;
-  duration: number;
-  format: string;
-  audioType: string;
-  mimeType: string;
-  coverMimeType?: string;
-  audioUrl: string;
-  coverUrl?: string;
-  addedAt: string;
-  updatedAt: string;
-  description?: string;
-}
-
-class MusicService {
+class AudioService {
   async uploadAudio(formData: FormData): Promise<AudioFile> {
     const response = await api.post('/api/audio', formData);
     return response.data?.data;
@@ -36,10 +21,10 @@ class MusicService {
     await api.delete(`/api/audio/${audioId}`);
   }
 
-  async duplicateAudioFile(audioId: string): Promise<{ data: AudioFile }> {
+  async duplicateAudioFile(audioId: string): Promise<AudioFile> {
     const response = await api.post(`/api/audio/${audioId}/duplicate`);
-    return response;
+    return response.data?.data;
   }
 }
 
-export const musicService = new MusicService();
+export const audioService = new AudioService();

@@ -11,7 +11,7 @@ import BooksPage from "./pages/BooksPage";
 import BookDetailsPage from "./pages/BookDetailsPage";
 import ImagesPage from "./pages/ImagesPage";
 import MoviesPage from "./pages/MoviesPage";
-import MusicPage from "./pages/MusicPage";
+import AudioPage from "./pages/AudioPage";
 import VideoPage from "./pages/VideoPage";
 import ScrollToTop from "./components/ScrollToTop";
 import BackButton from "./components/BackButton";
@@ -51,7 +51,7 @@ export default function App() {
         <Route path="/books" element={<ProtectedRoute><BooksPage /></ProtectedRoute>} />
         <Route path="/books/:id" element={<ProtectedRoute><BookDetailsPage /></ProtectedRoute>} />
         <Route path="/images" element={<ProtectedRoute><ImagesPage /></ProtectedRoute>} />
-        <Route path="/audio" element={<ProtectedRoute><MusicPage /></ProtectedRoute>} />
+        <Route path="/audio" element={<ProtectedRoute><AudioPage /></ProtectedRoute>} />
         <Route path="/movies" element={<ProtectedRoute><MoviesPage /></ProtectedRoute>} />
         <Route path="/videos" element={<ProtectedRoute><VideoPage /></ProtectedRoute>} />
       </Routes>

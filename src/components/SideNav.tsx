@@ -36,7 +36,7 @@ export default function SideNav({
       title: "Main",
       items: [
         { to: "/features", label: "Features", icon: <Sparkles className="w-4 h-4" /> },
-        { to: "/audio", label: "Music", icon: <Music className="w-4 h-4" /> },
+        { to: "/audio", label: "Audio", icon: <Music className="w-4 h-4" /> },
         { to: "/videos", label: "Video", icon: <Video className="w-4 h-4" /> },
         { to: "/books", label: "Books", icon: <BookOpen className="w-4 h-4" /> },
         { to: "/movies", label: "Movies", icon: <Film className="w-4 h-4" /> },

@@ -24,19 +24,19 @@ const categories = [
     ]
   },  
   {
-    name: "Music",
+    name: "Audio",
     items: [
       { 
         title: "Discover Tracks", 
         description: "Explore trending songs and curated playlists.", 
         icon: <Music className="h-6 w-6" />,
-        link: "/music"  
+        link: "/audio"  
       },
       { 
         title: "Personal Library", 
         description: "Organize your favorite albums and artists.", 
         icon: <Music className="h-6 w-6" />,
-        link: "/music"  
+        link: "/audio"  
       }
     ]
   },

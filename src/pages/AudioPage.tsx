@@ -2,15 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import { Upload, Play, Pause, Music } from 'lucide-react';
 import { Button } from '../components/ui/Button';
-import { musicService } from '../services/music.service';
-import type { AudioFile } from '../services/music.service';
+import { audioService } from '../services/audio.service';
+import type { AudioFile } from '../types/Audio';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
+import { ConfirmModal } from '../components/audio/ConfirmModal';
 
 export default function MusicPage() {
   const [audioFiles, setAudioFiles] = useState<AudioFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAudioId, setSelectedAudioId] = useState<string | null>(null);
+
   const waveformRefs = useRef<{ [key: string]: WaveSurfer }>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -18,28 +22,25 @@ export default function MusicPage() {
 
   async function loadAudioFiles() {
     try {
-      const response = await musicService.getAudioFiles();
+      const response = await audioService.getAudioFiles();
       setAudioFiles(response);
-    } catch (error) {
+    } catch {
       setAudioFiles([]);
     }
   }
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const fetchData = async () => {
-        await loadAudioFiles();
-      };
-      fetchData();
-    }
+    const handleAuthChange = async () => {
+      if (isAuthenticated) {
+        await loadAudioFiles(); // loadAudioFiles should itself call setAudioFiles
+      } else {
+        setAudioFiles([]); // safe here, but still wrapped in async
+      }
+    };
+  
+    handleAuthChange();
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      const clearData = () => setAudioFiles([]);
-      clearData();
-    }
-  }, [isAuthenticated]);
+  
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!isAuthenticated) {
@@ -61,7 +62,7 @@ export default function MusicPage() {
 
         const formData = new FormData();
         formData.append('audio', file);
-        const uploadedAudio = await musicService.uploadAudio(formData);
+        const uploadedAudio = await audioService.uploadAudio(formData);
         setAudioFiles(prev => [...prev, uploadedAudio]);
       }
     } catch (error) {
@@ -69,9 +70,7 @@ export default function MusicPage() {
       alert('Error uploading file');
     } finally {
       setIsUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -112,19 +111,22 @@ export default function MusicPage() {
     }
   };
 
-  const handleDelete = async (audioId: string) => {
-    if (!isAuthenticated) {
-      alert('Please log in to delete files');
-      return;
-    }
+  const openDeleteModal = (audioId: string) => {
+    setSelectedAudioId(audioId);
+    setIsModalOpen(true);
+  };
 
-
+  const confirmDelete = async () => {
+    if (!selectedAudioId) return;
     try {
-      await musicService.deleteAudioFile(audioId);
-      setAudioFiles(prev => prev.filter(audio => audio._id !== audioId));
+      await audioService.deleteAudioFile(selectedAudioId);
+      setAudioFiles(prev => prev.filter(audio => audio._id !== selectedAudioId));
     } catch (error) {
       console.error('Error deleting audio file:', error);
       alert('Error deleting audio file');
+    } finally {
+      setIsModalOpen(false);
+      setSelectedAudioId(null);
     }
   };
 
@@ -139,19 +141,14 @@ export default function MusicPage() {
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return 'Unknown date';
-      return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
-      });
-    } catch (error) {
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch {
       return 'Unknown date';
     }
   };
 
-
   useEffect(() => {
-    audioFiles.forEach((audio) => {
+    audioFiles.forEach(audio => {
       if (audio.audioUrl) {
         initializeWaveform(audio._id, `waveform-${audio._id}`, audio.audioUrl);
       }
@@ -169,6 +166,7 @@ export default function MusicPage() {
 
       <section className="py-12">
         <div className="container mx-auto px-4 max-w-6xl">
+          {/* Upload Section */}
           <div className="mb-12 text-center">
             <input
               ref={fileInputRef}
@@ -185,11 +183,16 @@ export default function MusicPage() {
                 className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
                 disabled={isUploading}
               >
-                <Upload className="w-5 h-5 mr-2" />
-                {isUploading ? 'Uploading...' : 'Upload Audio Files'}
+                <Upload className="w-5 h-5" />
               </Button>
             </label>
-            <p className="text-sm text-gray-500 mt-2">
+            {isUploading && (
+              <div className="flex justify-center items-center mt-4">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <span className="ml-2 text-gray-600 dark:text-gray-400">Uploading...</span>
+              </div>
+            )}
+            <p className="text-sm text-gray-500 mt-12">
               Supported audio formats: MP3, WAV, OGG, M4A
             </p>
           </div>
@@ -202,51 +205,68 @@ export default function MusicPage() {
                 <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
                   No audio files yet
                 </h3>
-                <p className="text-gray-500">
-                  Upload your first audio file to get started
-                </p>
+                <p className="text-gray-500">Upload your first audio file to get started</p>
               </div>
             ) : (
-              audioFiles.map((audio) => (
+              audioFiles.map(audio => (
                 <div
-                key={audio._id}
-                className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
-              >
-                <div className="flex items-center justify-between mb-4">
-                <button
-                    onClick={() => togglePlayback(audio._id)}
-                    className="w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-colors mr-10"
-                  >
-                    {playingId === audio._id ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
-                  </button>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                      {audio.title}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      Added {formatDate(audio.addedAt)} • {formatDuration(audio.duration)} • {(audio.size / 1024).toFixed(1)} KB
-                    </p>
+                  key={audio._id}
+                  className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-center mb-4">
+                    {audio.coverUrl && (
+                      <img
+                        src={audio.coverUrl}
+                        alt={`${audio.title} cover`}
+                        className="w-20 h-20 object-cover rounded-lg shadow mr-4"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                        {audio.title}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        Added {formatDate(audio.addedAt)} • {formatDuration(audio.duration)} •{' '}
+                        {(audio.size / 1024).toFixed(1)} KB
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => togglePlayback(audio._id)}
+                      className="w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-colors ml-4"
+                      >
+                      {playingId === audio._id ? (
+                        <Pause className="w-5 h-5" />
+                      ) : (
+                        <Play className="w-5 h-5 ml-0.5" />
+                      )}
+                    </button>
                   </div>
-                 
+
+                  <div id={`waveform-${audio._id}`} className="w-full"></div>
+
+                  <div className="flex space-x-2 mt-4">
+                    <Button
+                      onClick={() => openDeleteModal(audio._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
-                <div id={`waveform-${audio._id}`} className="w-full"></div>
-              
-              
-                <div className="flex space-x-2 mt-4">
-                  <Button
-                    onClick={() => handleDelete(audio._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </div>
-              
               ))
             )}
           </div>
         </div>
       </section>
+
+      {/* Confirm Modal */}
+      <ConfirmModal
+        isOpen={isModalOpen}
+        title="Delete Audio"
+        message="Are you sure you want to delete this audio file?"
+        onConfirm={confirmDelete}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
