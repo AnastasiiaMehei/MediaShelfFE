@@ -70,14 +70,20 @@ export default function Header() {
           scrollY > 150 ? "shadow-sm" : ""
         }`}
       >
-        <Link to="/">
-          <Text label="MediaShelf" className="text-xl font-bold text-primary" />
-        </Link>
+        <div className="flex items-center gap-0">
+    {/* <img
+      src="/favicon.png"
+      alt="MediaShelf logo"
+      className="h-14 w-12"
+    /> */}
+    <Link to="/">
+      <Text label="MediaShelf" className="text-xl font-bold text-primary" />
+    </Link>
+  </div>
 
         <div className="hidden md:flex items-center gap-6">
           {user ? (
             <>
-              {/* FEATURES — ЛІВОРУЧ */}
               <Link
                 to="/features"
                 className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
@@ -93,7 +99,7 @@ export default function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
-                to="/music"
+                to="/audio"
                 className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
               >
                 Music

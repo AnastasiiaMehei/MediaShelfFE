@@ -69,9 +69,14 @@ export default function HeroSlider() {
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
             Welcome to MediaShelf
           </h1>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-light max-w-2xl">
-            Your hub for movies, music, books and others. Discover, organize and enjoy your favorite media in one place
-          </h2>
+          <h2 className="text-xl md:text-2xl font-light tracking-wide text-gray-400 mb-4">
+  Your hub for movies, music, books and others
+</h2>
+<h2 className="text-xl md:text-2xl font-light tracking-wide text-gray-400 mb-6">
+  Discover, organize and enjoy your favorite media in one place
+</h2>
+
+
         </div>
       </div>
     </div>
