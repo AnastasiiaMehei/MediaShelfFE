@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Book } from "../types/Book";
 
-const BASE_URL = `${import.meta.env.VITE_API_URL}/api/books`;
+const BASE_URL = `${import.meta.env.VITE_API_URL}/books`;
 
 // ===============================
 // GET /books/recommend

@@ -15,7 +15,7 @@ export default function BooksPage() {
     if (!token) return;
   
     axios
-      .get(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/books/recommend`, {
+      .get(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/books/recommend`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
