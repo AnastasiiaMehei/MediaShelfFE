@@ -18,6 +18,7 @@ import AudioPage from "./pages/AudioPage";
 import VideoPage from "./pages/VideoPage";
 import ScrollToTop from "./components/ScrollToTop";
 import BackButton from "./components/BackButton";
+import NotFound from "./pages/NotFound";
 
 
 import "./App.css";
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/movies/watchlist" element={<ProtectedRoute><WatchlistMoviesPage /></ProtectedRoute>} />
         <Route path="/movies/favorites" element={<ProtectedRoute><FavoriteMoviesPage /></ProtectedRoute>} />
         <Route path="/videos" element={<ProtectedRoute><VideoPage /></ProtectedRoute>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ScrollToTop />
     </Router>
