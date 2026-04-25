@@ -34,13 +34,13 @@ export default function SideNav({
     handleClose();
   };
 
-  const menuItems: MenuSection[] = [
+  const menuItems = [
     {
       title: "Main",
       items: [
         { to: "/features", label: "Features", icon: <Sparkles className="w-4 h-4" /> },
-        { to: "/audio", label: "Audio", icon: <Music className="w-4 h-4" /> },
-        { to: "/videos", label: "Video", icon: <Video className="w-4 h-4" /> },
+        { to: "/audio", label: "Audios", icon: <Music className="w-4 h-4" /> },
+        { to: "/videos", label: "Videos", icon: <Video className="w-4 h-4" /> },
         { to: "/books", label: "Books", icon: <BookOpen className="w-4 h-4" /> },
         { to: "/movies", label: "Movies", icon: <Film className="w-4 h-4" /> },
       ],
@@ -74,6 +74,9 @@ export default function SideNav({
           ],
         },
   ].filter(Boolean);
+  const filteredMenuItems: MenuSection[] = menuItems.filter(
+    (item): item is MenuSection => item !== null
+  );
 
   return (
     <AnimatePresence mode="wait">
