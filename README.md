@@ -27,11 +27,17 @@ Here are some previews of the MediaShelf application:
 
 ### Login Page
 
-<img width="710" height="344" alt="image" src="https://github.com/user-attachments/assets/dc7b6acd-71eb-4f2d-bdf3-7fbd4038203e" />
+<img width="718" height="365" alt="image" src="https://github.com/user-attachments/assets/ab71a831-3788-45ff-b6e8-eb6bd0aca27f" />
+<img width="714" height="366" alt="image" src="https://github.com/user-attachments/assets/d4701699-af45-46ff-bab2-1e619b7a3f60" />
+
+
 
 ### Register Page
+<img width="713" height="366" alt="image" src="https://github.com/user-attachments/assets/3ee510e2-f6c6-43f7-a19c-31dd7e8596eb" />
+<img width="715" height="366" alt="image" src="https://github.com/user-attachments/assets/eb9eefc2-a237-471b-9f63-b93a266082e8" />
 
-<img width="709" height="346" alt="image" src="https://github.com/user-attachments/assets/25183d2f-551f-40a3-be62-d758c5bb51bc" />
+
+
 
 ### Images Page
 
