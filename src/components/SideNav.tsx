@@ -34,7 +34,7 @@ export default function SideNav({
     handleClose();
   };
 
-  const menuItems = [
+  const menuItems = ([
     {
       title: "Main",
       items: [
@@ -73,10 +73,7 @@ export default function SideNav({
             { to: "/register", label: "Create account", icon: <UserPlus className="w-4 h-4" /> },
           ],
         },
-  ].filter(Boolean);
-  const filteredMenuItems: MenuSection[] = menuItems.filter(
-    (item): item is MenuSection => item !== null
-  );
+  ] as (MenuSection | null)[]).filter(Boolean) as MenuSection[];
 
   return (
     <AnimatePresence mode="wait">
