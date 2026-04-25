@@ -39,8 +39,6 @@ Here are some previews of the MediaShelf application:
 
 <img width="702" height="343" alt="image" src="https://github.com/user-attachments/assets/aabaa9ab-c3e2-4e27-a440-f9f8951bda85" />
 
-<img width="299" height="351" alt="image" src="https://github.com/user-attachments/assets/c99ceb35-0bb2-46e3-95ef-f374fb807dad" />
-
 ### Videos Page
 <img width="702" height="351" alt="image" src="https://github.com/user-attachments/assets/4a9f9f76-81a9-47f4-96b3-185c829a184c" />
 
@@ -67,6 +65,9 @@ Here are some previews of the MediaShelf application:
 
 ### Books Page
 <img width="708" height="344" alt="image" src="https://github.com/user-attachments/assets/62afc584-deeb-4378-a404-e9ac94e4f9e6" />
+
+### Side Navigation
+<img width="299" height="367" alt="image" src="https://github.com/user-attachments/assets/0a924f4c-dca5-41ac-be7a-ac8fd4f18ec0" />
 
 
 
