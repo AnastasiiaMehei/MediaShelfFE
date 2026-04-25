@@ -14,7 +14,7 @@ import MoviesPage from "./pages/MoviesPage";
 import AudioPage from "./pages/AudioPage";
 import VideoPage from "./pages/VideoPage";
 import ScrollToTop from "./components/ScrollToTop";
-import BackButton from "./components/BackButton";
+// import BackButton from "./components/BackButton";
 
 
 import "./App.css";
@@ -41,7 +41,7 @@ export default function App() {
   return (
     <Router>
       <Header />
-      <BackButton />
+      {/* <BackButton /> */}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
