@@ -45,7 +45,11 @@ Here are some previews of the MediaShelf application:
 <img width="702" height="344" alt="image" src="https://github.com/user-attachments/assets/2e1cd880-1a99-4f02-8a34-7f842848c206" />
 
 ### Movies Page
-<img width="701" height="348" alt="image" src="https://github.com/user-attachments/assets/6e13efd9-dbb1-4e12-bac1-cb8bb9389063" />
+<img width="702" height="346" alt="image" src="https://github.com/user-attachments/assets/da66848e-f990-4bc6-8d1e-1c0fc6fe64b6" />
+<img width="701" height="347" alt="image" src="https://github.com/user-attachments/assets/c6a13247-86da-4e78-9834-17890194b4ca" />
+<img width="710" height="367" alt="image" src="https://github.com/user-attachments/assets/f460a33c-5e8d-46ad-8400-6a4941588f95" />
+<img width="709" height="365" alt="image" src="https://github.com/user-attachments/assets/da6e3d08-c013-4349-af5c-692c25da7169" />
+<img width="709" height="365" alt="image" src="https://github.com/user-attachments/assets/1c3302ca-dcb4-4ed6-8eae-de1d17ab700e" />
 
 ### Feature Page
 <img width="703" height="350" alt="image" src="https://github.com/user-attachments/assets/b655b3af-7f58-420d-8adf-f6263c9ea455" />
@@ -58,6 +62,9 @@ Here are some previews of the MediaShelf application:
 <img width="700" height="345" alt="image" src="https://github.com/user-attachments/assets/4646d7b4-3ba3-4090-95a8-848cce426c8d" />
 
 <img width="710" height="346" alt="image" src="https://github.com/user-attachments/assets/0001b855-be42-4cf5-b702-ef49130bc3ea" />
+
+### Books Page
+<img width="708" height="344" alt="image" src="https://github.com/user-attachments/assets/62afc584-deeb-4378-a404-e9ac94e4f9e6" />
 
 
 
