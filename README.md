@@ -134,9 +134,32 @@ The backend for MediaShelf is deployed on **Render**:
 - API Documentation (Swagger): [https://mediashelfbe.onrender.com/api-docs](https://mediashelfbe.onrender.com/api-docs)
 
 ### Main Endpoints
-- `POST /api/auth/login` — user login
-- `POST /api/auth/register` — user registration
-- `GET /api/books` — fetch books
-- `GET /api/movies` — fetch movies
-- `GET /api/videos` — fetch videos
-- `GET /api/images` — fetch images (Pixabay integration)
+Authentication (/api/auth):
+
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/logout
+POST /api/auth/refresh
+POST /api/auth/send-reset-email
+POST /api/auth/reset-pwd
+Audio (/api/audio):
+
+GET /api/audio
+POST /api/audio (з файлом)
+GET /api/audio/:audioId
+DELETE /api/audio/:audioId
+POST /api/audio/:audioId/duplicate
+Movies (/api/movies):
+
+GET /api/movies/watchlist
+POST /api/movies/watchlist (з постером)
+DELETE /api/movies/watchlist/:movieId
+GET /api/movies/favorites
+POST /api/movies/favorites (з постером)
+DELETE /api/movies/favorites/:movieId
+GET /api/movies/:movieId/status
+Books (/api/books):
+
+POST /api/books/auth
+GET /api/books/recommend
+GET /api/books/:id
