@@ -19,6 +19,8 @@ Here are some previews of the MediaShelf application:
 
 ### Images Page
 
+<img width="711" height="366" alt="image" src="https://github.com/user-attachments/assets/6de260ad-125e-4a88-ab77-fdba72ef5084" />
+
 <img width="299" height="351" alt="image" src="https://github.com/user-attachments/assets/cea70dc9-0a59-460b-859c-fccfe4972de9" />
 
 <img width="281" height="350" alt="image" src="https://github.com/user-attachments/assets/a094f0cf-e2b0-46f3-81f9-a255940fc29a" />
