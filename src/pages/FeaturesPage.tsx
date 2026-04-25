@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/authSlice";
 import { booksAuthService } from "../services/booksAuth.service";
+import toast from "react-hot-toast";
 
 const categories = [
   {
@@ -59,7 +60,7 @@ const categories = [
     items: [
       { 
         title: "Digital Library", 
-        description: "Access thousands of e‑books anytime.", 
+        description: "Access thousands of e-books anytime.", 
         icon: <BookOpen className="h-6 w-6" />,
         link: "/books"
       },
@@ -105,6 +106,7 @@ export default function FeaturesPage() {
       navigate("/books");
     } catch (err) {
       console.error("Books backend login failed:", err);
+      toast.error("Failed to connect to Books service. Please try again later.");
     }
   };
 
