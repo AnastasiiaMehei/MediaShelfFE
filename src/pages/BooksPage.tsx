@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import BooksGrid from "../components/books/BooksGrid";
 import type { Book } from "../types/Book";
+import axios from "axios";
 import ContentError from "../components/ContentError";
-import { getRecommendedBooks } from "../api/booksApi";
 import { useAppSelector } from "../lib/store/hooks";
 import { ClipLoader } from "react-spinners"; 
 
@@ -20,7 +20,12 @@ export default function BooksPage() {
       try {
         setLoading(true);
         setError(null);
-        const data = await getRecommendedBooks(token);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/books/recommend`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = res.data.results;
         setBooks(data);
         if (!data || data.length === 0) {
           setError("No recommended books are available right now.");
