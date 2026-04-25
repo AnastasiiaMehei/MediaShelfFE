@@ -11,10 +11,13 @@ import BooksPage from "./pages/BooksPage";
 import BookDetailsPage from "./pages/BookDetailsPage";
 import ImagesPage from "./pages/ImagesPage";
 import MoviesPage from "./pages/MoviesPage";
+import MovieDetailsPage from "./pages/MovieDetailsPage";
+import WatchlistMoviesPage from "./pages/WatchlistMoviesPage";
+import FavoriteMoviesPage from "./pages/FavoriteMoviesPage";
 import AudioPage from "./pages/AudioPage";
 import VideoPage from "./pages/VideoPage";
 import ScrollToTop from "./components/ScrollToTop";
-// import BackButton from "./components/BackButton";
+import BackButton from "./components/BackButton";
 
 
 import "./App.css";
@@ -41,7 +44,7 @@ export default function App() {
   return (
     <Router>
       <Header />
-      {/* <BackButton /> */}
+       <BackButton /> 
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -53,6 +56,9 @@ export default function App() {
         <Route path="/images" element={<ProtectedRoute><ImagesPage /></ProtectedRoute>} />
         <Route path="/audio" element={<ProtectedRoute><AudioPage /></ProtectedRoute>} />
         <Route path="/movies" element={<ProtectedRoute><MoviesPage /></ProtectedRoute>} />
+        <Route path="/movies/:id" element={<ProtectedRoute><MovieDetailsPage /></ProtectedRoute>} />
+        <Route path="/movies/watchlist" element={<ProtectedRoute><WatchlistMoviesPage /></ProtectedRoute>} />
+        <Route path="/movies/favorites" element={<ProtectedRoute><FavoriteMoviesPage /></ProtectedRoute>} />
         <Route path="/videos" element={<ProtectedRoute><VideoPage /></ProtectedRoute>} />
       </Routes>
       <ScrollToTop />

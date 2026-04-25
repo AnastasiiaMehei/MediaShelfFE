@@ -11,6 +11,8 @@ import {
   Music,
   BookOpen,
   Video,
+  Heart,
+  Bookmark,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store";
@@ -45,6 +47,15 @@ export default function SideNav({
     },
     user
       ? {
+          title: "My Movies",
+          items: [
+            { to: "/movies/watchlist", label: "Watchlist", icon: <Bookmark className="w-4 h-4" /> },
+            { to: "/movies/favorites", label: "Favorites", icon: <Heart className="w-4 h-4" /> },
+          ],
+        }
+      : null,
+    user
+      ? {
           title: "Account",
           items: [
             {
@@ -62,7 +73,7 @@ export default function SideNav({
             { to: "/register", label: "Create account", icon: <UserPlus className="w-4 h-4" /> },
           ],
         },
-  ];
+  ].filter(Boolean);
 
   return (
     <AnimatePresence mode="wait">

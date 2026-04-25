@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function BackButton() {
@@ -18,9 +18,9 @@ export default function BackButton() {
     navigate(-1);
   };
 
-  const handleForward = () => {
-    navigate(1);
-  };
+  // const handleForward = () => {
+  //   navigate(1);
+  // };
 
   if (!canGoBack && !canGoForward) return null;
 
@@ -47,7 +47,7 @@ export default function BackButton() {
           <ArrowLeft className="w-4 h-4" />
         </motion.button>
 
-        {canGoForward && (
+        {/* {canGoForward && (
           <motion.button
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -60,7 +60,7 @@ export default function BackButton() {
           >
             <ArrowRight className="w-4 h-4" />
           </motion.button>
-        )}
+        )} */}
       </motion.div>
     </AnimatePresence>
   );

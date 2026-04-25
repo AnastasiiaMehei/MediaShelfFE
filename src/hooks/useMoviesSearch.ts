@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchMovies } from "../api/moviesApi";
-import type { Movie } from "../types/Movie";
+import moviesService from "../services/movies.service";
+import type { Movie } from "../types/movies";
 
 export function useMoviesSearch(query: string) {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -14,7 +14,7 @@ export function useMoviesSearch(query: string) {
     async function loadMovies() {
       setLoading(true); 
       try {
-        const data = await fetchMovies(query);
+        const data = await moviesService.fetchMovies(query);
         if (!isCancelled) setMovies(data);
       } finally {
         if (!isCancelled) setLoading(false);
