@@ -57,6 +57,41 @@ export default function SideNav({
       : null,
     user
       ? {
+          title: "My Books",
+          items: [
+            { to: "/books/favorites", label: "Favorites", icon: <Bookmark className="w-4 h-4" /> },
+            { to: "/books/read", label: "Read", icon: <Heart className="w-4 h-4" /> },
+          ],
+        }
+      : null,
+    user
+      ? {
+          title: "My Images",
+          items: [
+            { to: "/images/favorites", label: "Favorites", icon: <Bookmark className="w-4 h-4" /> },
+            { to: "/images/viewed", label: "Viewed", icon: <Heart className="w-4 h-4" /> },
+          ],
+        }
+      : null,
+    user
+      ? {
+          title: "My Videos",
+          items: [
+            { to: "/videos/favorites", label: "Favorites", icon: <Bookmark className="w-4 h-4" /> },
+            { to: "/videos/viewed", label: "Viewed", icon: <Heart className="w-4 h-4" /> },
+          ],
+        }
+      : null,
+    user
+      ? {
+          title: "My Audio",
+          items: [
+            { to: "/audio", label: "Audios", icon: <Music className="w-4 h-4" /> },
+          ],
+        }
+      : null,
+    user
+      ? {
           title: "Account",
           items: [
             {
@@ -128,7 +163,7 @@ export default function SideNav({
               </div>
             </div>
 
-            <div className="p-4 space-y-6">
+            <div className="p-4 space-y-6 pt-15">
               {menuItems.map((section, index) => (
                 <motion.div
                   key={section.title}

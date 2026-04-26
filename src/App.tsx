@@ -1,32 +1,35 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Suspense, lazy } from "react";
 import type { RootState } from "./store";
-import HomePage from "./pages/HomePage";
-import UserPage from "./pages/UserPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
 import Header from "./components/Header";
-import FeaturesPage from "./pages/FeaturesPage";
-import BooksPage from "./pages/BooksPage";
-import BookDetailsPage from "./pages/BookDetailsPage";
-import ImagesPage from "./pages/ImagesPage";
-import ImageDetailsPage from "./pages/ImageDetailsPage";
-import MoviesPage from "./pages/MoviesPage";
-import MovieDetailsPage from "./pages/MovieDetailsPage";
-import WatchlistMoviesPage from "./pages/WatchlistMoviesPage";
-import FavoriteMoviesPage from "./pages/FavoriteMoviesPage";
-import AudioPage from "./pages/AudioPage";
-import VideoPage from "./pages/VideoPage";
-import VideoDetailsPage from "./pages/VideoDetailsPage";
 import ScrollToTop from "./components/ScrollToTop";
 import BackButton from "./components/BackButton";
-import NotFound from "./pages/NotFound";
-import FavoriteBooksPage from "./pages/FavoriteBooksPage";
-import ReadBooksPage from "./pages/ReadBooksPage";
-import FavoriteVideosPage from "./pages/FavoriteVideosPage";
-import ViewedVideosPage from "./pages/ViewedVideosPage";
-import FavoriteImagesPage from "./pages/FavoriteImagesPage";
-import ViewedImagesPage from "./pages/ViewedImagesPage";
+
+// Lazy load all pages
+const HomePage = lazy(() => import("./pages/HomePage"));
+const UserPage = lazy(() => import("./pages/UserPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const FeaturesPage = lazy(() => import("./pages/FeaturesPage"));
+const BooksPage = lazy(() => import("./pages/BooksPage"));
+const BookDetailsPage = lazy(() => import("./pages/BookDetailsPage"));
+const ImagesPage = lazy(() => import("./pages/ImagesPage"));
+const ImageDetailsPage = lazy(() => import("./pages/ImageDetailsPage"));
+const MoviesPage = lazy(() => import("./pages/MoviesPage"));
+const MovieDetailsPage = lazy(() => import("./pages/MovieDetailsPage"));
+const WatchlistMoviesPage = lazy(() => import("./pages/WatchlistMoviesPage"));
+const FavoriteMoviesPage = lazy(() => import("./pages/FavoriteMoviesPage"));
+const AudioPage = lazy(() => import("./pages/AudioPage"));
+const VideoPage = lazy(() => import("./pages/VideoPage"));
+const VideoDetailsPage = lazy(() => import("./pages/VideoDetailsPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const FavoriteBooksPage = lazy(() => import("./pages/FavoriteBooksPage"));
+const ReadBooksPage = lazy(() => import("./pages/ReadBooksPage"));
+const FavoriteVideosPage = lazy(() => import("./pages/FavoriteVideosPage"));
+const ViewedVideosPage = lazy(() => import("./pages/ViewedVideosPage"));
+const FavoriteImagesPage = lazy(() => import("./pages/FavoriteImagesPage"));
+const ViewedImagesPage = lazy(() => import("./pages/ViewedImagesPage"));
 
 
 import "./App.css";
@@ -54,31 +57,33 @@ export default function App() {
     <Router>
       <Header />
        <BackButton /> 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/user" element={<ProtectedUserRoute />} />
-        <Route path="/features" element={<ProtectedRoute><FeaturesPage /></ProtectedRoute>} />
-        <Route path="/books" element={<ProtectedRoute><BooksPage /></ProtectedRoute>} />
-        <Route path="/books/:id" element={<ProtectedRoute><BookDetailsPage /></ProtectedRoute>} />
-        <Route path="/books/favorites" element={<ProtectedRoute><FavoriteBooksPage /></ProtectedRoute>} />
-        <Route path="/books/read" element={<ProtectedRoute><ReadBooksPage /></ProtectedRoute>} />
-        <Route path="/images" element={<ProtectedRoute><ImagesPage /></ProtectedRoute>} />
-        <Route path="/images/:id" element={<ProtectedRoute><ImageDetailsPage /></ProtectedRoute>} />
-        <Route path="/images/favorites" element={<ProtectedRoute><FavoriteImagesPage /></ProtectedRoute>} />
-        <Route path="/images/viewed" element={<ProtectedRoute><ViewedImagesPage /></ProtectedRoute>} />
-        <Route path="/audio" element={<ProtectedRoute><AudioPage /></ProtectedRoute>} />
-        <Route path="/movies" element={<ProtectedRoute><MoviesPage /></ProtectedRoute>} />
-        <Route path="/movies/:id" element={<ProtectedRoute><MovieDetailsPage /></ProtectedRoute>} />
-        <Route path="/movies/watchlist" element={<ProtectedRoute><WatchlistMoviesPage /></ProtectedRoute>} />
-        <Route path="/movies/favorites" element={<ProtectedRoute><FavoriteMoviesPage /></ProtectedRoute>} />
-        <Route path="/videos" element={<ProtectedRoute><VideoPage /></ProtectedRoute>} />
-        <Route path="/videos/:id" element={<ProtectedRoute><VideoDetailsPage /></ProtectedRoute>} />
-        <Route path="/videos/favorites" element={<ProtectedRoute><FavoriteVideosPage /></ProtectedRoute>} />
-        <Route path="/videos/viewed" element={<ProtectedRoute><ViewedVideosPage /></ProtectedRoute>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/user" element={<ProtectedUserRoute />} />
+          <Route path="/features" element={<ProtectedRoute><FeaturesPage /></ProtectedRoute>} />
+          <Route path="/books" element={<ProtectedRoute><BooksPage /></ProtectedRoute>} />
+          <Route path="/books/:id" element={<ProtectedRoute><BookDetailsPage /></ProtectedRoute>} />
+          <Route path="/books/favorites" element={<ProtectedRoute><FavoriteBooksPage /></ProtectedRoute>} />
+          <Route path="/books/read" element={<ProtectedRoute><ReadBooksPage /></ProtectedRoute>} />
+          <Route path="/images" element={<ProtectedRoute><ImagesPage /></ProtectedRoute>} />
+          <Route path="/images/:id" element={<ProtectedRoute><ImageDetailsPage /></ProtectedRoute>} />
+          <Route path="/images/favorites" element={<ProtectedRoute><FavoriteImagesPage /></ProtectedRoute>} />
+          <Route path="/images/viewed" element={<ProtectedRoute><ViewedImagesPage /></ProtectedRoute>} />
+          <Route path="/audio" element={<ProtectedRoute><AudioPage /></ProtectedRoute>} />
+          <Route path="/movies" element={<ProtectedRoute><MoviesPage /></ProtectedRoute>} />
+          <Route path="/movies/:id" element={<ProtectedRoute><MovieDetailsPage /></ProtectedRoute>} />
+          <Route path="/movies/watchlist" element={<ProtectedRoute><WatchlistMoviesPage /></ProtectedRoute>} />
+          <Route path="/movies/favorites" element={<ProtectedRoute><FavoriteMoviesPage /></ProtectedRoute>} />
+          <Route path="/videos" element={<ProtectedRoute><VideoPage /></ProtectedRoute>} />
+          <Route path="/videos/:id" element={<ProtectedRoute><VideoDetailsPage /></ProtectedRoute>} />
+          <Route path="/videos/favorites" element={<ProtectedRoute><FavoriteVideosPage /></ProtectedRoute>} />
+          <Route path="/videos/viewed" element={<ProtectedRoute><ViewedVideosPage /></ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       <ScrollToTop />
     </Router>
   );

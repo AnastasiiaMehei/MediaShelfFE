@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { setCredentials } from "../store/authSlice";
 import { booksAuthService } from "../services/booksAuth.service";
 import toast from "react-hot-toast";
+import Seo from '../components/Seo';
 
 const categories = [
   {
@@ -112,7 +113,9 @@ export default function FeaturesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white">
+    <>
+      <Seo title="Features | MediaShelf" description="Explore MediaShelf features: organize books, movies, videos, images, and audio collections with ease." />
+      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white">
       <section className="pt-20 pb-12 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -204,5 +207,6 @@ export default function FeaturesPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }
