@@ -153,6 +153,7 @@ The backend for MediaShelf is deployed on **Render**:
 - Base URL: [[https://mediashelfbe.onrender.com], https://github.com/AnastasiiaMehei/MediaShelfBE]
 - API Documentation (Swagger): [https://mediashelfbe.onrender.com/api-docs](https://mediashelfbe.onrender.com/api-docs)
 
+
 ### Main Endpoints
 Authentication (/api/auth):
 
@@ -162,6 +163,7 @@ POST /api/auth/logout
 POST /api/auth/refresh
 POST /api/auth/send-reset-email
 POST /api/auth/reset-pwd
+
 Audio (/api/audio):
 
 GET /api/audio
@@ -169,6 +171,7 @@ POST /api/audio (з файлом)
 GET /api/audio/:audioId
 DELETE /api/audio/:audioId
 POST /api/audio/:audioId/duplicate
+
 Movies (/api/movies):
 
 GET /api/movies/watchlist
@@ -178,8 +181,33 @@ GET /api/movies/favorites
 POST /api/movies/favorites (з постером)
 DELETE /api/movies/favorites/:movieId
 GET /api/movies/:movieId/status
+
 Books (/api/books):
 
-POST /api/books/auth
-GET /api/books/recommend
-GET /api/books/:id
+GET /api/books/favorites
+POST /api/books/favorites (з cover)
+DELETE /api/books/favorites/:bookId
+GET /api/books/read
+POST /api/books/read (з cover)
+DELETE /api/books/read/:bookId
+GET /api/books/:bookId/status
+
+Videos (/api/videos):
+
+GET /api/videos/favorites
+POST /api/videos/favorites (з cover)
+DELETE /api/videos/favorites/:videoId
+GET /api/videos/viewed
+POST /api/videos/viewed (з cover)
+DELETE /api/videos/viewed/:videoId
+GET /api/videos/:videoId/status
+
+Images (/api/images):
+
+GET /api/images/favorites
+POST /api/images/favorites (з cover)
+DELETE /api/images/favorites/:imageId
+GET /api/images/viewed
+POST /api/images/viewed (з cover)
+DELETE /api/images/viewed/:imageId
+GET /api/images/:imageId/status
