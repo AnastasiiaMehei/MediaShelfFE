@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { Bookmark, Heart } from "lucide-react";
+import { Button } from "@mui/material";
 import { useMoviesByFilter } from "../hooks/useMovies";
 import type { MovieFilter } from "../types/movies";
 import MovieCard from "../components/movies/MovieCard";
@@ -32,26 +33,52 @@ export default function MoviesPage() {
         </motion.h1>
         
         <div className="flex gap-3">
-          <motion.button
+          <Button
+            component={motion.button}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/movies/watchlist")}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition"
+            variant="contained"
+            sx={{
+              backgroundColor: '#2563eb',
+              '&:hover': { backgroundColor: '#1d4ed8' },
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              px: 2,
+              py: 1,
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
             <Bookmark className="w-5 h-5" />
             Watchlist
-          </motion.button>
-          <motion.button
+          </Button>
+          <Button
+            component={motion.button}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/movies/favorites")}
-            className="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition"
+            variant="contained"
+            sx={{
+              backgroundColor: '#ca8a04',
+              '&:hover': { backgroundColor: '#a16207' },
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              px: 2,
+              py: 1,
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
             <Heart className="w-5 h-5" />
             Favorites
-          </motion.button>
+          </Button>
         </div>
       </div>
 
@@ -62,17 +89,40 @@ export default function MoviesPage() {
         className="flex gap-4 mb-8 flex-wrap"
       >
         {FILTER_OPTIONS.map((option) => (
-          <button
+          <Button
             key={option.value}
+            component={motion.button}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
             onClick={() => setActiveFilter(option.value)}
-            className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-              activeFilter === option.value
-                ? "bg-red-500 text-white shadow-lg"
-                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-            }`}
+            variant={activeFilter === option.value ? "contained" : "outlined"}
+            sx={{
+              px: 3,
+              py: 1,
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s',
+              ...(activeFilter === option.value
+                ? {
+                    backgroundColor: '#ef4444',
+                    '&:hover': { backgroundColor: '#dc2626' },
+                    color: 'white',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                  }
+                : {
+                    borderColor: '#374151',
+                    color: '#d1d5db',
+                    '&:hover': { 
+                      backgroundColor: '#374151',
+                      borderColor: '#4b5563'
+                    }
+                  }
+              )
+            }}
           >
             {option.label}
-          </button>
+          </Button>
         ))}
       </motion.div>
 

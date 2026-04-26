@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Heart, Eye } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { IconButton } from "@mui/material";
 import { addVideoToFavorites, addVideoToViewed, removeVideoFromFavorites, removeVideoFromViewed, getVideoStatus } from "../../api/videoApi";
 import type { PixabayVideo } from "../../api/videoApi";
 
@@ -113,44 +114,72 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
 
 
           <div className="absolute top-5 left-5 flex gap-3">
-            <motion.button
+            <IconButton
+              component={motion.button}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleFavoriteToggle}
               disabled={loading}
-              className={`p-3 rounded-full shadow-lg transition-all ${
-                isFavorite
-                  ? "bg-red-500 hover:bg-red-600 text-white"
-                  : "bg-gray-800 hover:bg-gray-700 text-gray-300"
-              } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+              sx={{
+                p: 1.5,
+                backgroundColor: isFavorite ? '#ef4444' : '#374151',
+                '&:hover': { 
+                  backgroundColor: isFavorite ? '#dc2626' : '#4b5563'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '50%',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                transition: 'all 0.2s'
+              }}
               title={isFavorite ? "Remove from favorites" : "Add to favorites"}
             >
               <Heart className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`} />
-            </motion.button>
+            </IconButton>
 
-            <motion.button
+            <IconButton
+              component={motion.button}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleViewedToggle}
               disabled={loading}
-              className={`p-3 rounded-full shadow-lg transition-all ${
-                isViewed
-                  ? "bg-blue-500 hover:bg-blue-600 text-white"
-                  : "bg-gray-800 hover:bg-gray-700 text-gray-300"
-              } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+              sx={{
+                p: 1.5,
+                backgroundColor: isViewed ? '#2563eb' : '#374151',
+                '&:hover': { 
+                  backgroundColor: isViewed ? '#1d4ed8' : '#4b5563'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '50%',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                transition: 'all 0.2s'
+              }}
               title={isViewed ? "Remove from viewed" : "Mark as viewed"}
             >
               <Eye className={`w-5 h-5 ${isViewed ? "fill-current" : ""}`} />
-            </motion.button>
+            </IconButton>
           </div>
 
-          <button
+          <IconButton
+            component={motion.button}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="absolute top-5 right-5 w-8 h-8 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg hover:shadow-xl"
+            sx={{
+              position: 'absolute',
+              top: 20,
+              right: 20,
+              width: 32,
+              height: 32,
+              backgroundColor: '#ef4444',
+              '&:hover': { backgroundColor: '#dc2626' },
+              borderRadius: '50%',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+              transition: 'all 0.2s'
+            }}
             aria-label="Close modal"
           >
             ✕
-          </button>
+          </IconButton>
         </motion.div>
       </motion.div>
       )}

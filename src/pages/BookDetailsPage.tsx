@@ -5,7 +5,8 @@ import type { Book } from "../types/Book";
 import { motion } from "framer-motion";
 import { useAppSelector, useAppDispatch } from "../lib/store/hooks";
 import { ClipLoader } from "react-spinners";
-import { addToFavoritesAsync, addToReadAsync, removeFromFavoritesAsync, removeFromReadAsync, fetchFavorites, fetchRead } from "../store/booksSlice"; 
+import { addToFavoritesAsync, addToReadAsync, removeFromFavoritesAsync, removeFromReadAsync, fetchFavorites, fetchRead } from "../store/booksSlice";
+import { Button } from "@mui/material"; 
 
 export default function BookDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -124,28 +125,50 @@ export default function BookDetailsPage() {
           )}
 
           <div className="flex gap-4 flex-wrap mt-6">
-            <button
+            <Button
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleAddToRead}
               disabled={booksLoading}
-              className={`px-6 py-3 rounded-lg font-semibold transition ${
-                isRead
-                  ? "bg-green-600 hover:bg-green-700"
-                  : "bg-blue-600 hover:bg-blue-700"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1.5,
+                backgroundColor: isRead ? '#16a34a' : '#2563eb',
+                '&:hover': { 
+                  backgroundColor: isRead ? '#15803d' : '#1d4ed8'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
               {booksLoading ? "Loading..." : isRead ? "✓ Read" : "Mark as Read"}
-            </button>
-            <button
+            </Button>
+            <Button
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleAddToFavorites}
               disabled={booksLoading}
-              className={`px-6 py-3 rounded-lg font-semibold transition ${
-                isFavorite
-                  ? "bg-yellow-500 hover:bg-yellow-600"
-                  : "bg-gray-800 hover:bg-gray-700"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1.5,
+                backgroundColor: isFavorite ? '#eab308' : '#374151',
+                '&:hover': { 
+                  backgroundColor: isFavorite ? '#ca8a04' : '#4b5563'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
               {booksLoading ? "Loading..." : isFavorite ? "★ Favorited" : "Add to Favorites"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

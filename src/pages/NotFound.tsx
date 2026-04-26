@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Home, AlertTriangle } from "lucide-react";
+import { Button } from "@mui/material";
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -69,27 +70,56 @@ export default function NotFound() {
             transition={{ delay: 0.5 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <motion.button
+            <Button
+              component={motion.button}
               onClick={() => navigate(-1)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-6 py-3 border border-gray-600 hover:bg-gray-800 text-white rounded-lg font-semibold transition-colors"
+              variant="outlined"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                px: 3,
+                py: 1.5,
+                borderColor: '#4b5563',
+                color: 'white',
+                '&:hover': { 
+                  backgroundColor: '#1f2937',
+                  borderColor: '#6b7280'
+                },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
               <ArrowLeft className="w-5 h-5" />
               Go Back
-            </motion.button>
+            </Button>
 
-            <motion.div
+            <Button
+              component={motion.div}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                px: 3,
+                py: 1.5,
+                backgroundColor: '#ef4444',
+                '&:hover': { backgroundColor: '#dc2626' },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
-              <Link to="/">
-                <button className="flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold transition-colors">
-                  <Home className="w-5 h-5" />
-                  Back to Home
-                </button>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Home className="w-5 h-5" />
+                Back to Home
               </Link>
-            </motion.div>
+            </Button>
           </motion.div>
 
           {/* Additional Help */}

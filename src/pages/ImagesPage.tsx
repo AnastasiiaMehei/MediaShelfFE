@@ -5,7 +5,8 @@ import { Bookmark, Heart } from "lucide-react";
 import { usePixabaySearch } from "../hooks/usePixabaySearch";
 import ImageCard from "../components/images/ImageCard";
 import ImageModal from "../components/images/ImageModal";
-import { ClipLoader } from "react-spinners"; 
+import { ClipLoader } from "react-spinners";
+import { Button } from "@mui/material";
 import type { PixabayImage } from "../types/PixabayImage";
 
 export default function ImagesPage() {
@@ -46,26 +47,43 @@ export default function ImagesPage() {
         </motion.h1>
         
         <div className="flex gap-3">
-          <motion.button
+          <Button
+            component={motion.button}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/images/viewed")}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition"
+            variant="contained"
+            startIcon={<Bookmark className="w-5 h-5" />}
+            sx={{
+              backgroundColor: '#2563eb',
+              '&:hover': { backgroundColor: '#1d4ed8' },
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
-            <Bookmark className="w-5 h-5" />
             Viewed
-          </motion.button>
-          <motion.button
+          </Button>
+          <Button
+            component={motion.button}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/images/favorites")}
-            className="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition"
+            variant="contained"
+            startIcon={<Heart className="w-5 h-5" />}
+            sx={{
+              backgroundColor: '#eab308',
+              color: 'black',
+              '&:hover': { backgroundColor: '#ca8a04' },
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
-            <Heart className="w-5 h-5" />
             Favorites
-          </motion.button>
+          </Button>
         </div>
       </div>
 

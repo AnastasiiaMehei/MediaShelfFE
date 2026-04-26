@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { CiMenuFries } from "react-icons/ci";
 import { Button } from "./ui/Button";
+import { Button as MuiButton } from "@mui/material";
 import SideNav from "./SideNav";
 import { UserInitial } from "./UserInitial";
 import { motion } from "framer-motion";
@@ -132,13 +133,37 @@ export default function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
 
-              <button
-  onClick={handleLogout}
-  className="ml-[50px] text-sm font-medium text-red-900 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
->
-  Logout
-  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-</button>
+              <MuiButton
+                component={motion.button}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleLogout}
+                variant="text"
+                sx={{
+                  ml: 12.5,
+                  color: 'red',
+                  fontSize: '0.875rem',
+                  fontWeight: 'medium',
+                  '&:hover': { color: '#ef4444' },
+                  textTransform: 'none',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -4,
+                    left: 0,
+                    width: 0,
+                    height: 2,
+                    backgroundColor: '#ef4444',
+                    transition: 'width 0.3s'
+                  },
+                  '&:hover::after': {
+                    width: '100%'
+                  }
+                }}
+              >
+                Logout
+              </MuiButton>
 
             </>
           ) : (

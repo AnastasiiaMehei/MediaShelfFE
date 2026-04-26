@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { Heart, Eye } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { Button } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../lib/store/hooks";
 import {
   addToFavoritesImagesAsync,
@@ -149,30 +150,52 @@ export default function ImageDetailsPage() {
           <p className="text-gray-300">Likes: {image.likes.toLocaleString()}</p>
 
           <div className="flex gap-4 flex-wrap mt-6">
-            <button
+            <Button
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleViewedToggle}
               disabled={actionsLoading}
-              className={`px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2 ${
-                isViewed
-                  ? "bg-blue-600 hover:bg-blue-700"
-                  : "bg-gray-800 hover:bg-gray-700"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              variant="contained"
+              startIcon={<Eye className="w-5 h-5" />}
+              sx={{
+                px: 3,
+                py: 1.5,
+                backgroundColor: isViewed ? '#2563eb' : '#374151',
+                '&:hover': { 
+                  backgroundColor: isViewed ? '#1d4ed8' : '#4b5563'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
-              <Eye className="w-5 h-5" />
               {actionsLoading ? "Loading..." : isViewed ? "✓ Viewed" : "Mark as Viewed"}
-            </button>
-            <button
+            </Button>
+            <Button
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleFavoriteToggle}
               disabled={actionsLoading}
-              className={`px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2 ${
-                isFavorite
-                  ? "bg-yellow-500 hover:bg-yellow-600"
-                  : "bg-gray-800 hover:bg-gray-700"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              variant="contained"
+              startIcon={<Heart className="w-5 h-5" />}
+              sx={{
+                px: 3,
+                py: 1.5,
+                backgroundColor: isFavorite ? '#eab308' : '#374151',
+                '&:hover': { 
+                  backgroundColor: isFavorite ? '#ca8a04' : '#4b5563'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
-              <Heart className="w-5 h-5" />
               {actionsLoading ? "Loading..." : isFavorite ? "★ Favorited" : "Add to Favorites"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

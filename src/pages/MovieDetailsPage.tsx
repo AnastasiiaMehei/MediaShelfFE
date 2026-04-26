@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
+import { Button } from "@mui/material";
 import { useMovieDetails, useMovieStatus, useMovieActions } from "../hooks/useMovies";
 import type { MoviePayload } from "../types/movies";
 
@@ -161,28 +162,50 @@ export default function MovieDetailsPage() {
           </div>
 
           <div className="flex gap-4 flex-wrap">
-            <button
+            <Button
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleAddToWatchlist}
               disabled={actionsLoading}
-              className={`px-6 py-3 rounded-lg font-semibold transition ${
-                status.inWatchlist
-                  ? "bg-green-600 hover:bg-green-700"
-                  : "bg-red-500 hover:bg-red-600"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1.5,
+                backgroundColor: status.inWatchlist ? '#16a34a' : '#ef4444',
+                '&:hover': { 
+                  backgroundColor: status.inWatchlist ? '#15803d' : '#dc2626'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
               {actionsLoading ? "Loading..." : status.inWatchlist ? "✓ In Watchlist" : "Add to Watchlist"}
-            </button>
-            <button
+            </Button>
+            <Button
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleAddToFavorites}
               disabled={actionsLoading}
-              className={`px-6 py-3 rounded-lg font-semibold transition ${
-                status.inFavorites
-                  ? "bg-yellow-500 hover:bg-yellow-600"
-                  : "bg-gray-800 hover:bg-gray-700"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1.5,
+                backgroundColor: status.inFavorites ? '#eab308' : '#374151',
+                '&:hover': { 
+                  backgroundColor: status.inFavorites ? '#ca8a04' : '#4b5563'
+                },
+                '&:disabled': { opacity: 0.5 },
+                borderRadius: '0.5rem',
+                fontWeight: 'semibold',
+                transition: 'all 0.2s'
+              }}
             >
               {actionsLoading ? "Loading..." : status.inFavorites ? "★ Favorited" : "Add to Favorites"}
-            </button>
+            </Button>
           </div>
         </motion.div>
       </div>

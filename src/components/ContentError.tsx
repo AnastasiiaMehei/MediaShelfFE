@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AlertTriangle, Home } from "lucide-react";
+import { Button } from "@mui/material";
 
 interface ContentErrorProps {
   title?: string;
@@ -67,18 +68,54 @@ export default function ContentError({
           transition={{ delay: 0.35 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <button
+          <Button
+            component={motion.button}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
             onClick={() => window.location.reload()}
-            className="px-6 py-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition"
+            variant="contained"
+            sx={{
+              px: 3,
+              py: 1.5,
+              backgroundColor: '#ef4444',
+              '&:hover': { backgroundColor: '#dc2626' },
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
             Retry
-          </button>
-          <Link to="/">
-            <button className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-500 text-white font-semibold transition flex items-center gap-2 justify-center">
+          </Button>
+          <Button
+            component={motion.div}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            variant="outlined"
+            sx={{
+              px: 3,
+              py: 1.5,
+              borderColor: '#374151',
+              color: 'white',
+              '&:hover': { 
+                backgroundColor: '#374151',
+                borderColor: '#4b5563'
+              },
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              justifyContent: 'center'
+            }}
+          >
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Home className="w-5 h-5" />
               {buttonLabel}
-            </button>
-          </Link>
+            </Link>
+          </Button>
         </motion.div>
       </motion.div>
     </div>

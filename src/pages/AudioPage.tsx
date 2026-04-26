@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import WaveSurfer from 'wavesurfer.js';
+import { motion } from "framer-motion";
 import { Upload, Play, Pause, Music } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import { IconButton } from "@mui/material";
 import { audioService } from '../services/audio.service';
 import type { AudioFile } from '../types/Audio';
 import { useSelector } from 'react-redux';
@@ -230,16 +232,26 @@ export default function MusicPage() {
                         {(audio.size / 1024).toFixed(1)} KB
                       </p>
                     </div>
-                    <button
+                    <IconButton
+                      component={motion.button}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => togglePlayback(audio._id)}
-                      className="w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-colors ml-4"
-                      >
+                      sx={{
+                        width: 48,
+                        height: 48,
+                        backgroundColor: '#ef4444',
+                        '&:hover': { backgroundColor: '#dc2626' },
+                        borderRadius: '50%',
+                        transition: 'all 0.2s'
+                      }}
+                    >
                       {playingId === audio._id ? (
                         <Pause className="w-5 h-5" />
                       ) : (
                         <Play className="w-5 h-5 ml-0.5" />
                       )}
-                    </button>
+                    </IconButton>
                   </div>
 
                   <div id={`waveform-${audio._id}`} className="w-full"></div>

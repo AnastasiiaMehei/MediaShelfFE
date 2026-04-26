@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { Bookmark, Heart } from "lucide-react";
+import { Button } from "@mui/material";
 import { fetchVideos, type PixabayVideo } from "../api/videoApi";
 import VideoCard from "../components/video/VideoCard";
 import VideoModal from "../components/video/VideoModal";
@@ -38,26 +39,52 @@ export default function VideoPage() {
         </motion.h1>
         
         <div className="flex gap-3">
-          <motion.button
+          <Button
+            component={motion.button}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/videos/viewed")}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition"
+            variant="contained"
+            sx={{
+              backgroundColor: '#2563eb',
+              '&:hover': { backgroundColor: '#1d4ed8' },
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              px: 2,
+              py: 1,
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
             <Bookmark className="w-5 h-5" />
             Viewed
-          </motion.button>
-          <motion.button
+          </Button>
+          <Button
+            component={motion.button}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/videos/favorites")}
-            className="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition"
+            variant="contained"
+            sx={{
+              backgroundColor: '#ca8a04',
+              '&:hover': { backgroundColor: '#a16207' },
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              px: 2,
+              py: 1,
+              borderRadius: '0.5rem',
+              fontWeight: 'semibold',
+              transition: 'all 0.2s'
+            }}
           >
             <Heart className="w-5 h-5" />
             Favorites
-          </motion.button>
+          </Button>
         </div>
       </div>
 

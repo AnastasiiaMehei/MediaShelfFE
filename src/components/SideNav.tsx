@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { IconButton, Button } from "@mui/material";
 import { UserInitial } from "./UserInitial";
 import Text from "./ui/Text";
 import {
@@ -111,13 +112,19 @@ export default function SideNav({
                 >
                   <UserInitial />
                 </motion.div>
-                <motion.button
+                <IconButton
+                  component={motion.button}
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={handleClose}
+                  sx={{
+                    color: 'gray',
+                    '&:hover': { color: '#ef4444' },
+                    transition: 'all 0.2s'
+                  }}
                 >
-                  <HiOutlineXMark className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary cursor-pointer transition-colors" />
-                </motion.button>
+                  <HiOutlineXMark className="h-6 w-6" />
+                </IconButton>
               </div>
             </div>
 
@@ -141,15 +148,30 @@ export default function SideNav({
                       transition={{ delay: 0.1 * (index + itemIndex + 1) }}
                     >
                       {item.action ? (
-                        <button
+                        <Button
+                          component={motion.button}
+                          whileHover={{ scale: 1.01, x: 4 }}
+                          whileTap={{ scale: 0.99 }}
                           onClick={item.action}
-                          className="flex items-center gap-3 px-2 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200 hover:translate-x-1 w-full text-left"
+                          startIcon={item.icon}
+                          sx={{
+                            justifyContent: 'flex-start',
+                            px: 1,
+                            py: 0.625,
+                            color: 'gray',
+                            fontSize: '0.875rem',
+                            '&:hover': { 
+                              color: '#ef4444',
+                              backgroundColor: 'rgba(0, 0, 0, 0.04)'
+                            },
+                            borderRadius: '0.375rem',
+                            transition: 'all 0.2s',
+                            textTransform: 'none',
+                            minHeight: 'auto'
+                          }}
                         >
-                          <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary">
-                            {item.icon}
-                          </span>
                           {item.label}
-                        </button>
+                        </Button>
                       ) : (
                         <Link
                           to={item.to}

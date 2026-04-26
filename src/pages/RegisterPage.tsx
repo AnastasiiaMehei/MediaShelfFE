@@ -7,12 +7,12 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/authSlice";
 import authService from "../services/auth.service";
 import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
-import { cn } from "../lib/utils";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import Seo from '../components/Seo';
 import Text from "../components/ui/Text";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
+import { HiOutlineEye, HiOutlineEyeSlash } from 'react-icons/hi2';
 
 const schema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -29,6 +29,8 @@ type Inputs = z.infer<typeof schema>;
 const RegisterPage: React.FC = () => {
     const [serverError, setServerError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -112,159 +114,181 @@ const RegisterPage: React.FC = () => {
                                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                                     <div className="space-y-4">
                                         <div>
-                                            <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
-                                                Name
-                                            </label>
-                                            <div className="relative">
-                                                <Input
-                                                    id="name"
-                                                    className={cn(
-                                                        "w-full transition-all duration-200",
-                                                        errors.name
-                                                            ? "border-destructive focus-visible:ring-destructive pr-10"
-                                                            : "focus-visible:ring-primary"
-                                                    )}
-                                                    placeholder="Enter your name"
-                                                    type="text"
-                                                    {...register('name')}
-                                                />
-                                                {errors.name && (
-                                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                                        <svg className="h-5 w-5 text-destructive" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {errors.name && (
-                                                <motion.p
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className="text-destructive text-sm mt-1.5 flex items-center gap-1.5"
-                                                >
-                                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                    </svg>
-                                                    {errors.name.message}
-                                                </motion.p>
-                                            )}
+                                            <TextField
+                                                id="name"
+                                                label="Name"
+                                                placeholder="Enter your name"
+                                                type="text"
+                                                fullWidth
+                                                variant="outlined"
+                                                error={!!errors.name}
+                                                helperText={errors.name?.message}
+                                                {...register('name')}
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        backgroundColor: 'var(--card)',
+                                                        '& fieldset': {
+                                                            borderColor: 'var(--border)',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputLabel-root': {
+                                                        color: 'var(--foreground)',
+                                                        '&.Mui-focused': {
+                                                            color: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        color: 'var(--foreground)',
+                                                    },
+                                                }}
+                                            />
                                         </div>
 
                                         <div>
-                                            <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
-                                                Email address
-                                            </label>
-                                            <div className="relative">
-                                                <Input
-                                                    id="email"
-                                                    className={cn(
-                                                        "w-full transition-all duration-200",
-                                                        errors.email
-                                                            ? "border-destructive focus-visible:ring-destructive pr-10"
-                                                            : "focus-visible:ring-primary"
-                                                    )}
-                                                    placeholder="Enter your email"
-                                                    type="email"
-                                                    {...register('email')}
-                                                />
-                                                {errors.email && (
-                                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                                        <svg className="h-5 w-5 text-destructive" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {errors.email && (
-                                                <motion.p
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className="text-destructive text-sm mt-1.5 flex items-center gap-1.5"
-                                                >
-                                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                    </svg>
-                                                    {errors.email.message}
-                                                </motion.p>
-                                            )}
+                                            <TextField
+                                                id="email"
+                                                label="Email address"
+                                                placeholder="Enter your email"
+                                                type="email"
+                                                fullWidth
+                                                variant="outlined"
+                                                error={!!errors.email}
+                                                helperText={errors.email?.message}
+                                                {...register('email')}
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        backgroundColor: 'var(--card)',
+                                                        '& fieldset': {
+                                                            borderColor: 'var(--border)',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputLabel-root': {
+                                                        color: 'var(--foreground)',
+                                                        '&.Mui-focused': {
+                                                            color: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        color: 'var(--foreground)',
+                                                    },
+                                                }}
+                                            />
                                         </div>
 
                                         <div>
-                                            <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1">
-                                                Password
-                                            </label>
-                                            <div className="relative">
-                                                <Input
-                                                    id="password"
-                                                    className={cn(
-                                                        "w-full transition-all duration-200",
-                                                        errors.password
-                                                            ? "border-destructive focus-visible:ring-destructive pr-10"
-                                                            : "focus-visible:ring-primary"
-                                                    )}
-                                                    placeholder="Create a password"
-                                                    type="password"
-                                                    {...register("password")}
-                                                />
-                                                {errors.password && (
-                                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                                        <svg className="h-5 w-5 text-destructive" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {errors.password && (
-                                                <motion.p
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className="text-destructive text-sm mt-1.5 flex items-center gap-1.5"
-                                                >
-                                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                    </svg>
-                                                    {errors.password.message}
-                                                </motion.p>
-                                            )}
+                                            <TextField
+                                                id="password"
+                                                label="Password"
+                                                placeholder="Create a password"
+                                                type={showPassword ? 'text' : 'password'}
+                                                fullWidth
+                                                variant="outlined"
+                                                error={!!errors.password}
+                                                helperText={errors.password?.message}
+                                                {...register('password')}
+                                                slotProps={{
+                                                    input: {
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    onClick={() => setShowPassword((prev) => !prev)}
+                                                                    edge="end"
+                                                                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                                                >
+                                                                    {showPassword ? <HiOutlineEyeSlash className="w-5 h-5" /> : <HiOutlineEye className="w-5 h-5" />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        ),
+                                                    },
+                                                }}
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        backgroundColor: 'var(--card)',
+                                                        '& fieldset': {
+                                                            borderColor: 'var(--border)',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputLabel-root': {
+                                                        color: 'var(--foreground)',
+                                                        '&.Mui-focused': {
+                                                            color: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        color: 'var(--foreground)',
+                                                    },
+                                                }}
+                                            />
                                         </div>
 
                                         <div>
-                                            <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-1">
-                                                Confirm Password
-                                            </label>
-                                            <div className="relative">
-                                                <Input
-                                                    id="confirmPassword"
-                                                    className={cn(
-                                                        "w-full transition-all duration-200",
-                                                        errors.confirmPassword
-                                                            ? "border-destructive focus-visible:ring-destructive pr-10"
-                                                            : "focus-visible:ring-primary"
-                                                    )}
-                                                    placeholder="Confirm your password"
-                                                    type="password"
-                                                    {...register("confirmPassword")}
-                                                />
-                                                {errors.confirmPassword && (
-                                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                                        <svg className="h-5 w-5 text-destructive" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {errors.confirmPassword && (
-                                                <motion.p
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className="text-destructive text-sm mt-1.5 flex items-center gap-1.5"
-                                                >
-                                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                    </svg>
-                                                    {errors.confirmPassword.message}
-                                                </motion.p>
-                                            )}
+                                            <TextField
+                                                id="confirmPassword"
+                                                label="Confirm Password"
+                                                placeholder="Confirm your password"
+                                                type={showConfirmPassword ? 'text' : 'password'}
+                                                fullWidth
+                                                variant="outlined"
+                                                error={!!errors.confirmPassword}
+                                                helperText={errors.confirmPassword?.message}
+                                                {...register('confirmPassword')}
+                                                slotProps={{
+                                                    input: {
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                                                    edge="end"
+                                                                    aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                                                                >
+                                                                    {showConfirmPassword ? <HiOutlineEyeSlash className="w-5 h-5" /> : <HiOutlineEye className="w-5 h-5" />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        ),
+                                                    },
+                                                }}
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        backgroundColor: 'var(--card)',
+                                                        '& fieldset': {
+                                                            borderColor: 'var(--border)',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputLabel-root': {
+                                                        color: 'var(--foreground)',
+                                                        '&.Mui-focused': {
+                                                            color: 'var(--ring)',
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        color: 'var(--foreground)',
+                                                    },
+                                                }}
+                                            />
                                         </div>
                                     </div>
 

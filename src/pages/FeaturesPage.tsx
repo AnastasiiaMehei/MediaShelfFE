@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Music, Video, BookOpen, Film, Image, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Button } from "@mui/material";
 import { setCredentials } from "../store/authSlice";
 import { booksAuthService } from "../services/booksAuth.service";
 import toast from "react-hot-toast";
@@ -169,14 +170,30 @@ export default function FeaturesPage() {
                     ) : (
                       <>
                         <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
-                        <button
+                        <Button
+                          component={motion.button}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                           onClick={() =>
                             item.link === "/books" ? handleBooksClick() : navigate(item.link)
                           }
-                          className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition flex items-center gap-2"
+                          variant="outlined"
+                          endIcon={<ChevronRight className="w-4 h-4" />}
+                          sx={{
+                            px: 2,
+                            py: 1,
+                            borderColor: '#ef4444',
+                            color: '#ef4444',
+                            '&:hover': { 
+                              backgroundColor: '#ef4444',
+                              color: 'white'
+                            },
+                            borderRadius: '0.375rem',
+                            transition: 'all 0.2s'
+                          }}
                         >
-                          Go <ChevronRight className="w-4 h-4" />
-                        </button>
+                          Go
+                        </Button>
                       </>
                     )}
                   </motion.div>

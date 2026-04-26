@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { RotateCcw } from "lucide-react";
+import { IconButton } from "@mui/material";
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../lib/store/hooks";
 import { fetchViewedImages } from "../store/imagesSlice";
@@ -29,17 +30,25 @@ export default function ViewedImagesPage() {
         >
           My Viewed Images
         </motion.h1>
-        <motion.button
+        <IconButton
+          component={motion.button}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           whileHover={{ rotate: 180 }}
           onClick={refetch}
           disabled={loading}
-          className="p-2 bg-red-500 hover:bg-red-600 disabled:opacity-50 rounded-lg transition"
+          sx={{
+            p: 1,
+            backgroundColor: '#ef4444',
+            '&:hover': { backgroundColor: '#dc2626' },
+            '&:disabled': { opacity: 0.5 },
+            borderRadius: '0.5rem',
+            transition: 'all 0.2s'
+          }}
           title="Refresh viewed images"
         >
           <RotateCcw className="w-5 h-5" />
-        </motion.button>
+        </IconButton>
       </div>
 
       {loading ? (

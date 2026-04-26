@@ -1,6 +1,7 @@
 import React from "react";
 import { Play, Pause } from "lucide-react";
 import { Button } from "../ui/Button";
+import { IconButton } from "@mui/material";
 import type { AudioFile } from "../../types/Audio";
 
 interface Props {
@@ -28,12 +29,22 @@ export const AudioCard: React.FC<Props> = ({ audio, playingId, onPlayPause, onDe
           Added {formatDate(audio.addedAt)} • {formatDuration(audio.duration)} • {(audio.size / 1024).toFixed(1)} KB
         </p>
       </div>
-      <button
+      <IconButton
         onClick={() => onPlayPause(audio._id)}
-        className="w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-colors ml-4"
+        sx={{
+          width: 48,
+          height: 48,
+          backgroundColor: '#ef4444',
+          color: 'white',
+          borderRadius: '50%',
+          ml: 4,
+          '&:hover': {
+            backgroundColor: '#dc2626',
+          },
+        }}
       >
         {playingId === audio._id ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
-      </button>
+      </IconButton>
     </div>
     <div id={`waveform-${audio._id}`} className="w-full"></div>
     <div className="flex space-x-2 mt-4">
