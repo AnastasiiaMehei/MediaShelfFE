@@ -107,7 +107,7 @@ export default function Header() {
                 to="/audio"
                 className="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors relative group"
               >
-                Audio
+                Audios
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link

@@ -14,6 +14,9 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
         alt={image.tags}
         className="w-full h-full object-cover rounded-md cursor-pointer"
         onClick={onClick}
+        onError={(e) => {
+          e.currentTarget.src = 'https://via.placeholder.com/300x200?text=Image';
+        }}
       />
     </Card>
   );

@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
-import { fetchVideos } from "../api/videoApi";
+import { Bookmark, Heart } from "lucide-react";
+import { fetchVideos, type PixabayVideo } from "../api/videoApi";
 import VideoCard from "../components/video/VideoCard";
 import VideoModal from "../components/video/VideoModal";
-import type { Video } from "../types/Video";
 
 export default function VideoPage() {
-  const [videos, setVideos] = useState<Video[]>([]);
+  const navigate = useNavigate();
+  const [videos, setVideos] = useState<PixabayVideo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<PixabayVideo | null>(null);
 
   useEffect(() => {
     async function loadVideos() {
       try {
         const data = await fetchVideos("nature");
-        const mapped = data.map((v) => ({
-          id: v.id,
-          title: v.tags,
-          thumbnail: v.videos.medium.thumbnail,
-          url: v.videos.medium.url,
-        }));
-        setVideos(mapped);
+        setVideos(data);
       } finally {
         setLoading(false);
       }
@@ -30,28 +26,58 @@ export default function VideoPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 px-6">
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-red-500 mb-6 ml-20"
-      >
-        Videos
-      </motion.h1>
+    <div className="min-h-screen bg-black text-white pt-24 px-6 ml-20">
+      <div className="flex items-center justify-between mb-8">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-bold text-red-500"
+        >
+          Videos
+        </motion.h1>
+        
+        <div className="flex gap-3">
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            whileHover={{ scale: 1.05 }}
+            onClick={() => navigate("/videos/viewed")}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition"
+          >
+            <Bookmark className="w-5 h-5" />
+            Viewed
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            whileHover={{ scale: 1.05 }}
+            onClick={() => navigate("/videos/favorites")}
+            className="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition"
+          >
+            <Heart className="w-5 h-5" />
+            Favorites
+          </motion.button>
+        </div>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <ClipLoader color="#3b82f6" size={50} />
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+        >
           {videos.map((video) => (
             <div key={video.id} onClick={() => setSelectedVideo(video)}>
               <VideoCard video={video} />
             </div>
           ))}
-        </div>
+        </motion.div>
       )}
 
       <VideoModal

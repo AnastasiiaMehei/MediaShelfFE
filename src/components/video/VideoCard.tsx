@@ -1,21 +1,21 @@
-import type { Video } from "../../types/Video";
+import type { PixabayVideo } from "../../api/videoApi";
 import Card from "../ui/Card";
 
 interface Props {
-  video: Video;
+  video: PixabayVideo;
 }
 
 export default function VideoCard({ video }: Props) {
   return (
 <Card>
-  <video 
-    controls 
+  <img
+    src={video.videos.large.thumbnail || 'https://via.placeholder.com/300x200?text=Video'}
+    alt={video.tags}
     className="w-full h-full object-cover rounded-md"
-  >
-    <source src={video.url} type="video/mp4" />
-  </video>
+    onError={(e) => {
+      e.currentTarget.src = 'https://via.placeholder.com/300x200?text=Video';
+    }}
+  />
 </Card>
-
-
   );
 }

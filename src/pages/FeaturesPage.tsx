@@ -24,7 +24,7 @@ const categories = [
     ]
   },  
   {
-    name: "Audio",
+    name: "Audios",
     items: [
       { 
         title: "Discover Tracks", 
@@ -40,18 +40,18 @@ const categories = [
     ]
   },
   {
-    name: "Video",
+    name: "Videos",
     items: [
       { 
         title: "Stream Videos", 
         description: "Watch the latest clips and shows instantly.", 
         icon: <Video className="h-6 w-6" />, 
-        link: "/video"  
+        link: "/videos"  
       },
       { 
         title: "Go to Video Gallery", 
         description: null, 
-        link: "/video"   
+        link: "/videos"   
       }
     ]
   },
