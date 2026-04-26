@@ -14,6 +14,8 @@ import {
 interface BooksState {
   favorites: BookItem[];
   read: BookItem[];
+  favoritesLoaded: boolean;
+  readLoaded: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -21,11 +23,17 @@ interface BooksState {
 const initialState: BooksState = {
   favorites: [],
   read: [],
+  favoritesLoaded: false,
+  readLoaded: false,
   loading: false,
   error: null,
 };
 
-export const fetchFavorites = createAsyncThunk(
+interface FetchOptions {
+  force?: boolean;
+}
+
+export const fetchFavorites = createAsyncThunk<BookItem[], FetchOptions | void>(
   "books/fetchFavorites",
   async (_, { rejectWithValue }) => {
     try {
@@ -34,10 +42,17 @@ export const fetchFavorites = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message || "Failed to fetch favorites");
     }
+  },
+  {
+    condition: (options, { getState }) => {
+      if (options && typeof options === "object" && options.force) return true;
+      const state = getState() as { books: BooksState };
+      return !state.books.favoritesLoaded;
+    },
   }
 );
 
-export const fetchRead = createAsyncThunk(
+export const fetchRead = createAsyncThunk<BookItem[], FetchOptions | void>(
   "books/fetchRead",
   async (_, { rejectWithValue }) => {
     try {
@@ -46,6 +61,13 @@ export const fetchRead = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message || "Failed to fetch read books");
     }
+  },
+  {
+    condition: (options, { getState }) => {
+      if (options && typeof options === "object" && options.force) return true;
+      const state = getState() as { books: BooksState };
+      return !state.books.readLoaded;
+    },
   }
 );
 
@@ -126,6 +148,7 @@ const booksSlice = createSlice({
       .addCase(fetchFavorites.fulfilled, (state, action: PayloadAction<BookItem[]>) => {
         state.loading = false;
         state.favorites = action.payload;
+        state.favoritesLoaded = true;
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.loading = false;
@@ -138,6 +161,7 @@ const booksSlice = createSlice({
       .addCase(fetchRead.fulfilled, (state, action: PayloadAction<BookItem[]>) => {
         state.loading = false;
         state.read = action.payload;
+        state.readLoaded = true;
       })
       .addCase(fetchRead.rejected, (state, action) => {
         state.loading = false;

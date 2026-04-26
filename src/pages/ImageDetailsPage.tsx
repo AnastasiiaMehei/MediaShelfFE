@@ -4,28 +4,27 @@ import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { Heart, Eye } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { addImageToFavorites, addImageToViewed, removeImageFromFavorites, removeImageFromViewed, getImageStatus } from "../api/pixabayApi";
+import { useAppSelector, useAppDispatch } from "../lib/store/hooks";
+import {
+  addToFavoritesImagesAsync,
+  addToViewedImagesAsync,
+  removeFromFavoritesImagesAsync,
+  removeFromViewedImagesAsync,
+  fetchFavoriteImages,
+  fetchViewedImages,
+} from "../store/imagesSlice";
 import type { PixabayImage } from "../types/PixabayImage";
 
 export default function ImageDetailsPage() {
   const { id } = useParams<{ id: string }>();
 
+  const dispatch = useAppDispatch();
   const [image, setImage] = useState<PixabayImage | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isViewed, setIsViewed] = useState(false);
+  const { favorites, viewed } = useAppSelector((state) => state.images);
+  const isFavorite = Boolean(id && favorites.some((img) => img.imageId === id));
+  const isViewed = Boolean(id && viewed.some((img) => img.imageId === id));
   const [actionsLoading, setActionsLoading] = useState(false);
-
-  const loadImageStatus = async () => {
-    if (!id) return;
-    try {
-      const status = await getImageStatus(id);
-      setIsFavorite(status.isFavorite);
-      setIsViewed(status.isViewed);
-    } catch (error) {
-      console.error("Error loading image status:", error);
-    }
-  };
 
   useEffect(() => {
     if (!id) return;
@@ -55,26 +54,25 @@ export default function ImageDetailsPage() {
     };
 
     setImage(mockImage);
-    loadImageStatus();
+    dispatch(fetchFavoriteImages());
+    dispatch(fetchViewedImages());
     setLoading(false);
-  }, [id]);
+  }, [id, dispatch]);
 
   const handleFavoriteToggle = async () => {
     if (!image || actionsLoading) return;
     setActionsLoading(true);
     try {
-      if (isFavorite) {
-        await removeImageFromFavorites(image.id.toString());
-        setIsFavorite(false);
+      if (favorites.some((img) => img.imageId === id)) {
+        await dispatch(removeFromFavoritesImagesAsync(image.id.toString())).unwrap();
         toast.success("Removed from favorites");
       } else {
-        await addImageToFavorites({
+        await dispatch(addToFavoritesImagesAsync({
           imageId: image.id.toString(),
           title: image.tags,
           imageUrl: image.largeImageURL,
           description: image.tags,
-        });
-        setIsFavorite(true);
+        })).unwrap();
         toast.success("Added to favorites");
       }
     } catch (error) {
@@ -89,18 +87,16 @@ export default function ImageDetailsPage() {
     if (!image || actionsLoading) return;
     setActionsLoading(true);
     try {
-      if (isViewed) {
-        await removeImageFromViewed(image.id.toString());
-        setIsViewed(false);
+      if (viewed.some((img) => img.imageId === id)) {
+        await dispatch(removeFromViewedImagesAsync(image.id.toString())).unwrap();
         toast.success("Removed from viewed");
       } else {
-        await addImageToViewed({
+        await dispatch(addToViewedImagesAsync({
           imageId: image.id.toString(),
           title: image.tags,
           imageUrl: image.largeImageURL,
           description: image.tags,
-        });
-        setIsViewed(true);
+        })).unwrap();
         toast.success("Added to viewed");
       }
     } catch (error) {

@@ -13,6 +13,8 @@ import {
 interface VideosState {
   favorites: VideoItem[];
   viewed: VideoItem[];
+  favoritesLoaded: boolean;
+  viewedLoaded: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -20,11 +22,17 @@ interface VideosState {
 const initialState: VideosState = {
   favorites: [],
   viewed: [],
+  favoritesLoaded: false,
+  viewedLoaded: false,
   loading: false,
   error: null,
 };
 
-export const fetchFavoritesVideos = createAsyncThunk(
+interface FetchOptions {
+  force?: boolean;
+}
+
+export const fetchFavoritesVideos = createAsyncThunk<VideoItem[], FetchOptions | void>(
   "videos/fetchFavorites",
   async (_, { rejectWithValue }) => {
     try {
@@ -34,9 +42,17 @@ export const fetchFavoritesVideos = createAsyncThunk(
       return rejectWithValue(err.message || "Failed to fetch favorite videos");
     }
   }
+  ,
+  {
+    condition: (options, { getState }) => {
+      if (options && typeof options === "object" && options.force) return true;
+      const state = getState() as { videos: VideosState };
+      return !state.videos.favoritesLoaded;
+    },
+  }
 );
 
-export const fetchViewedVideos = createAsyncThunk(
+export const fetchViewedVideos = createAsyncThunk<VideoItem[], FetchOptions | void>(
   "videos/fetchViewed",
   async (_, { rejectWithValue }) => {
     try {
@@ -45,6 +61,14 @@ export const fetchViewedVideos = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message || "Failed to fetch viewed videos");
     }
+  }
+  ,
+  {
+    condition: (options, { getState }) => {
+      if (options && typeof options === "object" && options.force) return true;
+      const state = getState() as { videos: VideosState };
+      return !state.videos.viewedLoaded;
+    },
   }
 );
 
@@ -113,6 +137,7 @@ const videosSlice = createSlice({
       .addCase(fetchFavoritesVideos.fulfilled, (state, action: PayloadAction<VideoItem[]>) => {
         state.loading = false;
         state.favorites = action.payload;
+        state.favoritesLoaded = true;
       })
       .addCase(fetchFavoritesVideos.rejected, (state, action) => {
         state.loading = false;
@@ -125,6 +150,7 @@ const videosSlice = createSlice({
       .addCase(fetchViewedVideos.fulfilled, (state, action: PayloadAction<VideoItem[]>) => {
         state.loading = false;
         state.viewed = action.payload;
+        state.viewedLoaded = true;
       })
       .addCase(fetchViewedVideos.rejected, (state, action) => {
         state.loading = false;

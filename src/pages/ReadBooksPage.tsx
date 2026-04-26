@@ -15,7 +15,7 @@ export default function ReadBooksPage() {
   }, [dispatch]);
 
   const handleRefetch = () => {
-    dispatch(fetchRead());
+    dispatch(fetchRead({ force: true }));
   };
 
   return (

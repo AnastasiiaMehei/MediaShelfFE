@@ -15,7 +15,7 @@ export default function FavoriteBooksPage() {
   }, [dispatch]);
 
   const handleRefetch = () => {
-    dispatch(fetchFavorites());
+    dispatch(fetchFavorites({ force: true }));
   };
 
   return (

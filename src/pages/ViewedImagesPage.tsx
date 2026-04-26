@@ -1,11 +1,22 @@
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { RotateCcw } from "lucide-react";
-import { useViewedImages } from "../hooks/useImages";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../lib/store/hooks";
+import { fetchViewedImages } from "../store/imagesSlice";
 import ImageItemCard from "../components/images/ImageItemCard";
 
 export default function ViewedImagesPage() {
-  const { images, loading, refetch } = useViewedImages();
+  const dispatch = useAppDispatch();
+  const { viewed, loading, error } = useAppSelector((state) => state.images);
+
+  useEffect(() => {
+    dispatch(fetchViewedImages());
+  }, [dispatch]);
+
+  const refetch = () => {
+    dispatch(fetchViewedImages({ force: true }));
+  };
 
   return (
     <div className="min-h-screen bg-black text-white pt-24 px-6 ml-20">
@@ -35,7 +46,12 @@ export default function ViewedImagesPage() {
         <div className="flex justify-center items-center h-64">
           <ClipLoader color="#ef4444" size={50} />
         </div>
-      ) : images.length === 0 ? (
+      ) : error ? (
+        <div className="text-center py-12">
+          <p className="text-red-500 text-lg">{error}</p>
+          <p className="text-gray-500 text-sm mt-2">Please try refreshing the page.</p>
+        </div>
+      ) : viewed.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-400 text-lg">Your viewed images list is empty</p>
           <p className="text-gray-500 text-sm mt-2">Start viewing images from the Images page!</p>
@@ -47,7 +63,7 @@ export default function ViewedImagesPage() {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {images.map((image) => (
+          {viewed.map((image) => (
             <ImageItemCard key={image._id} image={image} />
           ))}
         </motion.div>

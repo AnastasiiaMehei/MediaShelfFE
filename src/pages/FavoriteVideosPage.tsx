@@ -15,7 +15,7 @@ export default function FavoriteVideosPage() {
   }, [dispatch]);
 
   const handleRefetch = () => {
-    dispatch(fetchFavoritesVideos());
+    dispatch(fetchFavoritesVideos({ force: true }));
   };
 
   return (

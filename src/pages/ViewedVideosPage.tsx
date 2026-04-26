@@ -15,7 +15,7 @@ export default function ViewedVideosPage() {
   }, [dispatch]);
 
   const handleRefetch = () => {
-    dispatch(fetchViewedVideos());
+    dispatch(fetchViewedVideos({ force: true }));
   };
 
   return (

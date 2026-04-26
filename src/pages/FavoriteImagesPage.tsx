@@ -1,11 +1,22 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners";
 import { RotateCcw } from "lucide-react";
-import { useFavoriteImages } from "../hooks/useImages";
+import { useAppSelector, useAppDispatch } from "../lib/store/hooks";
+import { fetchFavoriteImages } from "../store/imagesSlice";
 import ImageItemCard from "../components/images/ImageItemCard";
 
 export default function FavoriteImagesPage() {
-  const { images, loading, refetch } = useFavoriteImages();
+  const dispatch = useAppDispatch();
+  const { favorites, loading, error } = useAppSelector((state) => state.images);
+
+  useEffect(() => {
+    dispatch(fetchFavoriteImages());
+  }, [dispatch]);
+
+  const refetch = () => {
+    dispatch(fetchFavoriteImages({ force: true }));
+  };
 
   return (
     <div className="min-h-screen bg-black text-white pt-24 px-6 ml-20">
@@ -35,7 +46,12 @@ export default function FavoriteImagesPage() {
         <div className="flex justify-center items-center h-64">
           <ClipLoader color="#ef4444" size={50} />
         </div>
-      ) : images.length === 0 ? (
+      ) : error ? (
+        <div className="text-center py-12">
+          <p className="text-red-500 text-lg">{error}</p>
+          <p className="text-gray-500 text-sm mt-2">Please try refreshing the page.</p>
+        </div>
+      ) : favorites.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-400 text-lg">Your favorite images list is empty</p>
           <p className="text-gray-500 text-sm mt-2">Start adding images to favorites from the Images page!</p>
@@ -47,7 +63,7 @@ export default function FavoriteImagesPage() {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {images.map((image) => (
+          {favorites.map((image) => (
             <ImageItemCard key={image._id} image={image} />
           ))}
         </motion.div>
