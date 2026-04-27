@@ -4,6 +4,7 @@ MediaShelf is a multimedia hub where users can **search and save** books, movies
 It provides secure login and personalized access to your favorite content.
 
 <img width="704" height="261" alt="image" src="https://github.com/user-attachments/assets/7907afaf-223b-4c76-9263-381e716a5bbe" />
+<img width="709" height="262" alt="image" src="https://github.com/user-attachments/assets/4db10d96-970b-4a72-860d-432a0cd6b610" />
 
 ---
 ## 📸 Screenshots
