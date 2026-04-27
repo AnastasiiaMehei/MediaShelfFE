@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/authSlice";
 import authService from "../services/auth.service";
@@ -26,6 +26,7 @@ const LoginPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const {
@@ -204,6 +205,15 @@ const LoginPage: React.FC = () => {
                                             className="text-destructive text-sm text-center"
                                         >
                                             {serverError}
+                                        </motion.p>
+                                    )}
+                                    {location.state?.registrationSuccess && (
+                                        <motion.p
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="text-success text-sm text-center"
+                                        >
+                                            {location.state.message ?? "Registration successful. Please log in."}
                                         </motion.p>
                                     )}
 

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/authSlice";
 import authService from "../services/auth.service";
+import toast from "react-hot-toast";
 import { Button } from "../components/ui/Button";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import Seo from '../components/Seo';
@@ -47,19 +48,38 @@ const RegisterPage: React.FC = () => {
         setIsLoading(true);
         try {
             const res = await authService.register({ name: data.name, email: data.email, password: data.password });
-            dispatch(
-                setCredentials({
-                    user: {
-                        email: res.data.data.user.email,
-                        name: res.data.data.user.name
-                    },
-                    accessToken: res.data.data.accessToken,
-                    refreshToken: res.data.data.refreshToken,
-                })
-            );
+            const responseData = res.data?.data ?? res.data;
+            const user = responseData?.user ?? { email: data.email, name: data.name };
+            const accessToken = responseData?.accessToken ?? responseData?.token;
+            const refreshToken = responseData?.refreshToken;
+
+            if (accessToken) {
+                dispatch(
+                    setCredentials({
+                        user: {
+                            email: user?.email,
+                            name: user?.name,
+                        },
+                        accessToken,
+                        refreshToken,
+                    })
+                );
+                toast.success("Registration successful! Redirecting...");
+            }
             console.log("Response:", res.data);
-            navigate("/features");
+            if (accessToken) {
+                navigate("/features");
+            } else {
+                toast.success(res.data?.message || "Registration successful! Please log in.");
+                navigate("/login", {
+                    state: {
+                        registrationSuccess: true,
+                        message: res.data?.message || "Registration successful. Please log in.",
+                    },
+                });
+            }
         } catch (err: unknown) {
+            console.error(err);
             if (typeof err === "object" && err !== null && "response" in err) {
                 const axiosErr = err as { response?: { data?: { message?: string } } };
                 setServerError(axiosErr.response?.data?.message || "Registration failed");
