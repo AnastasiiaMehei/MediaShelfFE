@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import Swiper from 'swiper';
-import { Autoplay, Navigation } from 'swiper/modules';
+import { Autoplay, Navigation, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/effect-fade';
 
 const slides = [
   { x1: '/swiper/hero/bg-blue-x1.png', x2: '/swiper/hero/bg-blue-x2.png', alt: 'blue-screen' },
@@ -15,7 +16,7 @@ const slides = [
 export default function HeroSlider() {
   useEffect(() => {
     new Swiper('.swiper-hero', {
-      modules: [Navigation, Autoplay],
+      modules: [Navigation, Autoplay, EffectFade],
       loop: true,
       autoplay: {
         delay: 5000,
@@ -33,10 +34,11 @@ export default function HeroSlider() {
         {slides.map((slide, index) => (
           <div key={index} className="swiper-slide w-full h-full">
             <img
-              data-src={slide.x1}
-              data-srcset={`${slide.x1} 1x, ${slide.x2} 2x`}
+              src={slide.x1}
+              srcSet={`${slide.x1} 1x, ${slide.x2} 2x`}
               alt={slide.alt}
-              className="w-full h-full object-cover swiper-lazy"
+              loading="lazy"
+              className="w-full h-full object-cover"
             />
           </div>
         ))}
