@@ -42,14 +42,23 @@ const LoginPage: React.FC = () => {
         setIsLoading(true);
         try {
             const res = await authService.login({ email: data.email, password: data.password });
+            const responseData = res.data?.data ?? res.data;
+            const user = responseData?.user ?? { email: data.email, name: '' };
+            const accessToken = responseData?.accessToken ?? responseData?.token;
+            const refreshToken = responseData?.refreshToken;
+
+            if (!accessToken) {
+                throw new Error('Login response did not include an access token');
+            }
+
             dispatch(
                 setCredentials({
                     user: {
-                        email: res.data.data.user.email,
-                        name: res.data.data.user.name
+                        email: user.email,
+                        name: user.name,
                     },
-                    accessToken: res.data.data.accessToken,
-                    refreshToken: res.data.data.refreshToken,
+                    accessToken,
+                    refreshToken,
                 })
             );
             console.log("Response:", res.data);
