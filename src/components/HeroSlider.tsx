@@ -3,7 +3,7 @@ import Swiper from 'swiper';
 import { Autoplay, Navigation, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/modules/effect-fade.css';
+import 'swiper/css/effect-fade';
 
 const slides = [
   { x1: '/swiper/hero/bg-blue-x1.png', x2: '/swiper/hero/bg-blue-x2.png', alt: 'blue-screen' },
